@@ -1,6 +1,11 @@
 {
   "players": {},
   "participants": [],
+  "issue_numbers": {
+    "tictactoe": 1,
+    "reversi": 2,
+    "guess": 3
+  },
   "tictactoe": {
     "board": null,
     "turn": "X",
