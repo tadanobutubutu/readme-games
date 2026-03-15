@@ -2,7 +2,15 @@ class Reversi:
     def __init__(self):
         self.size = 8
         self.symbols = {'black': '⚫', 'white': '⚪', None: '🟩'}
+        # Use emoji SVGs for clean rendering
+        self.img_black = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg'
+        self.img_white = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26aa.svg'
+        self.img_blank = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="40" height="40"%3E%3Crect width="40" height="40" fill="%2338a169" rx="3"/%3E%3C/svg%3E'
         self.directions = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
+        self.issue_number = 2
+    
+    def set_issue_number(self, num):
+        self.issue_number = num
     
     def create_board(self):
         board = [[None for _ in range(self.size)] for _ in range(self.size)]
@@ -94,23 +102,68 @@ class Reversi:
             return "⚪ White"
         return "Draw"
     
-    def render(self, state):
+    def render(self, state, owner='tdnb2b2', repo='readme-games'):
         if not state['board']:
-            return "*No active game. Start with: `start reversi`*"
+            return "*No active game.* [**Start Game →**](https://github.com/{}/{}/issues/{}/comments/new?body=start%20reversi)".format(owner, repo, self.issue_number)
         
         board = state['board']
-        md = "\n**Current Turn:** " + self.symbols[state['turn']] + "\n\n"
-        md += "|   | A | B | C | D | E | F | G | H |\n"
-        md += "|---|---|---|---|---|---|---|---|---|\n"
+        md = "\n**It's your turn!** Place a <!-- BEGIN TURN -->" + self.symbols[state['turn']] + "<!-- END TURN --> disc.\n\n"
         
-        for i, row in enumerate(board):
-            md += f"| {i+1} | "
-            md += " | ".join(self.symbols[cell] for cell in row)
-            md += " |\n"
+        # Get valid moves for highlighting
+        valid_moves = []
+        for r in range(self.size):
+            for c in range(self.size):
+                if self.get_flips(board, r, c, state['turn']):
+                    valid_moves.append(f"{chr(65+c)}{r+1}")
         
+        # marcizhu-style board
+        md += "|   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |\n"
+        md += "|---|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-:|\n"
+        
+        for i in range(self.size):
+            md += f"| **{i+1}** | "
+            for j in range(self.size):
+                cell = board[i][j]
+                position = f"{chr(65+j)}{i+1}"
+                
+                if cell is None and position in valid_moves:
+                    # Valid move - clickable
+                    link = f"https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body={position}"
+                    md += f"[<img src=\"{self.img_blank}\" width=40px>]({link})"
+                elif cell == 'black':
+                    md += f"<img src=\"{self.img_black}\" width=40px>"
+                elif cell == 'white':
+                    md += f"<img src=\"{self.img_white}\" width=40px>"
+                else:
+                    # Empty but not valid move
+                    md += f"<img src=\"{self.img_blank}\" width=40px>"
+                
+                md += " | "
+            
+            md += f"**{i+1}** |\n"
+        
+        md += "|   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |\n\n"
+        
+        # Score and valid moves
         black = sum(row.count('black') for row in board)
         white = sum(row.count('white') for row in board)
-        md += f"\n**Score:** ⚫ {black} - ⚪ {white}\n"
-        md += "\n**How to play:** Comment position (e.g., `D3`, `E6`)\n"
+        md += f"**Score:** ⚫ {black} - ⚪ {white}\n\n"
+        
+        if valid_moves:
+            md += "**Valid moves (click to play):** "
+            links = [f"[{pos}](https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body={pos})" for pos in valid_moves[:8]]  # Show first 8
+            md += ", ".join(links)
+            if len(valid_moves) > 8:
+                md += f" (+{len(valid_moves)-8} more)"
+            md += "\n\n"
+        
+        # Last moves
+        if state['moves']:
+            md += "<details>\n  <summary>📊 Last 3 moves</summary>\n\n"
+            md += "| Move | Player | Flips |\n"
+            md += "| :--: | :----- | :---: |\n"
+            for m in state['moves'][-3:]:
+                md += f"| `{m['move']}` ({self.symbols[m['color']]}) | [@{m['player']}](https://github.com/{m['player']}) | - |\n"
+            md += "\n</details>\n"
         
         return md
