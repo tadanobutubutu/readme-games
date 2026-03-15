@@ -61,6 +61,29 @@ class GameManager:
         if self.actor not in self.data['participants']:
             self.data['participants'].append(self.actor)
     
+    def invite_as_read_only_collaborator(self):
+        """
+        Invite player as read-only collaborator.
+        In organizations: 'pull' permission = read-only
+        In personal repos: only 'push' is available (can't do read-only)
+        """
+        try:
+            # Check if already a collaborator
+            if self.repo.has_in_collaborators(self.actor):
+                return  # Already invited
+            
+            # Try to invite with 'pull' permission (read-only for orgs)
+            self.repo.add_to_collaborators(self.actor, permission='pull')
+            print(f"✅ Invited @{self.actor} as read-only collaborator")
+        except GithubException as e:
+            # Common errors:
+            # - Already invited (pending)
+            # - User doesn't exist
+            # - Permission error
+            # - Personal repo (doesn't support 'pull' permission)
+            print(f"⚠️ Could not invite @{self.actor}: {e.data.get('message', str(e))}")
+            pass  # Silently continue - invitation is optional
+    
     def get_top_players(self, limit=10):
         return sorted(self.data['players'].items(), key=lambda x: x[1]['total'], reverse=True)[:limit]
     
@@ -174,6 +197,11 @@ class GameManager:
         
         if result['success']:
             self.update_player_stats(game_type)
+            
+            # Invite as read-only collaborator (first time players only)
+            if self.data['players'][self.actor]['total'] == 1:
+                self.invite_as_read_only_collaborator()
+            
             self.save_data()
             self.update_readme()
             
