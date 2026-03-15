@@ -2,6 +2,10 @@ class TicTacToe:
     def __init__(self):
         self.size = 3
         self.symbols = {'X': '❌', 'O': '⭕', None: '⬜'}
+        self.issue_number = 1  # Default, will be updated from game_data
+    
+    def set_issue_number(self, num):
+        self.issue_number = num
     
     def create_board(self):
         return [[None for _ in range(self.size)] for _ in range(self.size)]
@@ -69,22 +73,36 @@ class TicTacToe:
     def is_full(self, board):
         return all(cell is not None for row in board for cell in row)
     
-    def render(self, state):
+    def render(self, state, owner='tdnb2b2', repo='readme-games'):
         if not state['board']:
             return "*No active game. Start with: `start ttt` or `start tictactoe`*"
         
         board = state['board']
         md = "\n**Current Turn:** " + self.symbols[state['turn']] + "\n\n"
-        md += "|   | A | B | C |\n"
-        md += "|---|---|---|---|\n"
         
-        for i, row in enumerate(board):
-            md += f"| {i+1} | "
-            md += " | ".join(self.symbols[cell] for cell in row)
-            md += " |\n"
+        # Clickable board with emoji buttons
+        md += "**🎯 Click a position to make your move:**\n\n"
+        md += "<table><tr><td></td><td align='center'><b>A</b></td><td align='center'><b>B</b></td><td align='center'><b>C</b></td></tr>"
         
-        md += "\n**How to play:** Comment with position (e.g., `A1`, `B2`, `C3`)\n"
-        md += "\n**Last 3 moves:**\n\n"
+        for i in range(self.size):
+            md += f"<tr><td align='center'><b>{i+1}</b></td>"
+            for j in range(self.size):
+                cell = board[i][j]
+                position = f"{chr(65+j)}{i+1}"
+                
+                if cell is None:
+                    # Empty cell - clickable
+                    link = f"https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body={position}"
+                    md += f"<td align='center'><a href='{link}'>▫️</a></td>"
+                else:
+                    # Occupied cell - not clickable
+                    md += f"<td align='center'>{self.symbols[cell]}</td>"
+            md += "</tr>"
+        
+        md += "</table>\n\n"
+        md += "**📝 Or comment directly:** `A1`, `B2`, `C3`, etc.\n\n"
+        
+        md += "**📊 Last 3 moves:**\n\n"
         
         if state['moves']:
             for m in state['moves'][-3:]:
