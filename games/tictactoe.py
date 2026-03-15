@@ -2,7 +2,11 @@ class TicTacToe:
     def __init__(self):
         self.size = 3
         self.symbols = {'X': '❌', 'O': '⭕', None: '⬜'}
-        self.issue_number = 1  # Default, will be updated from game_data
+        # Use emoji data URIs for clean rendering
+        self.img_x = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg'
+        self.img_o = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg'
+        self.img_blank = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="50" height="50"%3E%3Crect width="50" height="50" fill="%23f0f0f0" rx="5"/%3E%3C/svg%3E'
+        self.issue_number = 1
     
     def set_issue_number(self, num):
         self.issue_number = num
@@ -41,7 +45,7 @@ class TicTacToe:
         winner = self.check_winner(state['board'])
         if winner:
             msg = f"🎉 Game Over! {self.symbols[winner]} wins! Played by @{player}"
-            state['board'] = None  # Reset for next game
+            state['board'] = None
             return {'success': True, 'message': msg}
         
         # Check draw
@@ -75,39 +79,57 @@ class TicTacToe:
     
     def render(self, state, owner='tdnb2b2', repo='readme-games'):
         if not state['board']:
-            return "*No active game. Start with: `start ttt` or `start tictactoe`*"
+            return "*No active game.* [**Start Game →**](https://github.com/{}/{}/issues/{}/comments/new?body=start%20ttt)".format(owner, repo, self.issue_number)
         
         board = state['board']
-        md = "\n**Current Turn:** " + self.symbols[state['turn']] + "\n\n"
+        md = "\n**It's your turn!** Move a <!-- BEGIN TURN -->" + self.symbols[state['turn']] + "<!-- END TURN --> piece.\n\n"
         
-        # Clickable board with emoji buttons
-        md += "**🎯 Click a position to make your move:**\n\n"
-        md += "<table><tr><td></td><td align='center'><b>A</b></td><td align='center'><b>B</b></td><td align='center'><b>C</b></td></tr>"
+        # marcizhu-style board with images
+        md += "|   | **A** | **B** | **C** |   |\n"
+        md += "|---|:-----:|:-----:|:-----:|:-:|\n"
         
         for i in range(self.size):
-            md += f"<tr><td align='center'><b>{i+1}</b></td>"
+            md += f"| **{i+1}** | "
             for j in range(self.size):
                 cell = board[i][j]
                 position = f"{chr(65+j)}{i+1}"
                 
                 if cell is None:
-                    # Empty cell - clickable
+                    # Empty cell - clickable image
                     link = f"https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body={position}"
-                    md += f"<td align='center'><a href='{link}'>▫️</a></td>"
+                    md += f"[<img src=\"{self.img_blank}\" width=50px>]({link})"
+                elif cell == 'X':
+                    # X piece
+                    md += f"<img src=\"{self.img_x}\" width=50px>"
                 else:
-                    # Occupied cell - not clickable
-                    md += f"<td align='center'>{self.symbols[cell]}</td>"
-            md += "</tr>"
+                    # O piece
+                    md += f"<img src=\"{self.img_o}\" width=50px>"
+                
+                md += " | "
+            
+            md += f"**{i+1}** |\n"
         
-        md += "</table>\n\n"
-        md += "**📝 Or comment directly:** `A1`, `B2`, `C3`, etc.\n\n"
+        md += "|   | **A** | **B** | **C** |   |\n\n"
         
-        md += "**📊 Last 3 moves:**\n\n"
+        # Show available moves like marcizhu
+        empty_positions = []
+        for i in range(self.size):
+            for j in range(self.size):
+                if board[i][j] is None:
+                    empty_positions.append(f"{chr(65+j)}{i+1}")
         
+        if empty_positions:
+            md += "**Click any empty square to play!** Or choose from: "
+            links = [f"[{pos}](https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body={pos})" for pos in empty_positions]
+            md += ", ".join(links) + "\n\n"
+        
+        # Last moves
         if state['moves']:
+            md += "<details>\n  <summary>📊 Last 3 moves</summary>\n\n"
+            md += "| Move | Player |\n"
+            md += "| :--: | :----- |\n"
             for m in state['moves'][-3:]:
-                md += f"- {self.symbols[m['symbol']]} {m['move']} by @{m['player']}\n"
-        else:
-            md += "*No moves yet*\n"
+                md += f"| `{m['move']}` ({self.symbols[m['symbol']]}) | [@{m['player']}](https://github.com/{m['player']}) |\n"
+            md += "\n</details>\n"
         
         return md
