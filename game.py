@@ -25,6 +25,13 @@ class GameManager:
             'reversi': Reversi(),
             'guess': NumberGuess()
         }
+        
+        # Set issue numbers for games
+        if 'issue_numbers' in self.data:
+            for game_name, game in self.games.items():
+                if game_name in self.data['issue_numbers']:
+                    if hasattr(game, 'set_issue_number'):
+                        game.set_issue_number(self.data['issue_numbers'][game_name])
     
     def load_data(self):
         if self.data_file.exists():
@@ -33,7 +40,8 @@ class GameManager:
         else:
             self.data = {
                 'players': {},
-                'participants': [],  # List of all participants
+                'participants': [],
+                'issue_numbers': {'tictactoe': 1, 'reversi': 2, 'guess': 3},
                 'tictactoe': {'board': None, 'turn': 'X', 'moves': []},
                 'reversi': {'board': None, 'turn': 'black', 'moves': []},
                 'guess': {'number': None, 'attempts': [], 'solved': False}
@@ -89,13 +97,21 @@ class GameManager:
         readme = self.repo.get_contents('README.md')
         content = readme.decoded_content.decode('utf-8')
         
+        # Get repo owner and name
+        owner, repo_name = self.repo.full_name.split('/')
+        
         # Update game sections
         for game_name, game in self.games.items():
             marker_start = f"<!-- {game_name.upper()}_START -->"
             marker_end = f"<!-- {game_name.upper()}_END -->"
             
             if marker_start in content and marker_end in content:
-                game_section = game.render(self.data[game_name])
+                # Pass owner and repo to render method if supported
+                if hasattr(game, 'render') and game_name in ['tictactoe', 'reversi']:
+                    game_section = game.render(self.data[game_name], owner=owner, repo=repo_name)
+                else:
+                    game_section = game.render(self.data[game_name])
+                
                 pattern = f"{re.escape(marker_start)}.*?{re.escape(marker_end)}"
                 replacement = f"{marker_start}\n{game_section}\n{marker_end}"
                 content = re.sub(pattern, replacement, content, flags=re.DOTALL)
