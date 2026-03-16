@@ -12,46 +12,46 @@ class TicTacToe:
     def create_board(self):
         return [[None for _ in range(self.size)] for _ in range(self.size)]
 
-    def make_move(self, state, move, player):
-        if move == 'start':
-            state['board'] = self.create_board()
-            state['turn'] = 'X'
-            state['moves'] = []
-            return {'success': True, 'message': f'New Tic-Tac-Toe game started by @{player}. X goes first.'}
-
+    def place(self, state, position, player):
+        """Place the current turn's symbol on the board."""
         if not state['board']:
             state['board'] = self.create_board()
             state['turn'] = 'X'
             state['moves'] = []
 
-        if len(move) != 2:
+        if len(position) != 2:
             return {'success': False, 'message': 'Invalid format. Use A1-C3 (e.g., B2)'}
 
-        col = ord(move[0]) - ord('A')
-        row = int(move[1]) - 1
+        col = ord(position[0]) - ord('A')
+        row = int(position[1]) - 1
 
         if row < 0 or row >= self.size or col < 0 or col >= self.size:
             return {'success': False, 'message': 'Position out of bounds'}
 
         if state['board'][row][col] is not None:
-            return {'success': False, 'message': 'Position already taken'}
+            return {'success': False, 'message': 'That square is already taken!'}
 
-        state['board'][row][col] = state['turn']
-        state['moves'].append({'player': player, 'move': move, 'symbol': state['turn']})
+        current_symbol = state['turn']
+        state['board'][row][col] = current_symbol
+        state['moves'].append({'player': player, 'position': position, 'symbol': current_symbol})
 
         winner = self.check_winner(state['board'])
         if winner:
-            msg = f'{self.symbols[winner]} wins! Game over. Played by @{player}'
+            msg = f'{self.symbols[winner]} wins! Game over. Placed by @{player}'
             state['board'] = None
             return {'success': True, 'message': msg}
 
         if self.is_full(state['board']):
-            msg = f'Draw! Last move by @{player}'
+            msg = f'Draw! Last piece placed by @{player}'
             state['board'] = None
             return {'success': True, 'message': msg}
 
-        state['turn'] = 'O' if state['turn'] == 'X' else 'X'
-        return {'success': True, 'message': f'Move {move} by @{player}. Next: {self.symbols[state["turn"]]}'}
+        state['turn'] = 'O' if current_symbol == 'X' else 'X'
+        return {'success': True, 'message': f'{self.symbols[current_symbol]} placed at {position} by @{player}. Next: {self.symbols[state["turn"]]}'}
+
+    # keep make_move as alias for compatibility with game.py
+    def make_move(self, state, move, player):
+        return self.place(state, move, player)
 
     def check_winner(self, board):
         for i in range(self.size):
@@ -85,9 +85,9 @@ class TicTacToe:
             for j in range(self.size):
                 cell = board[i][j]
                 position = f"{chr(65+j)}{i+1}"
-                
+
                 if cell is None:
-                    title = f"Tic-Tac-Toe:+Move+{position}"
+                    title = f"Tic-Tac-Toe:+Put+{position}"
                     body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
                     link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
                     md += f"[{self.symbols[None]}]({link})"
@@ -108,17 +108,17 @@ class TicTacToe:
                 for j in range(self.size):
                     if board[i][j] is None:
                         pos = f"{chr(65+j)}{i+1}"
-                        title = f"Tic-Tac-Toe:+Move+{pos}"
+                        title = f"Tic-Tac-Toe:+Put+{pos}"
                         body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
                         link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
                         empty.append(f"[{pos}]({link})")
             md += "\n" + " · ".join(empty) + "\n"
 
             if state['moves']:
-                md += "\n<details>\n  <summary>Last moves</summary>\n\n"
-                md += "| Move | Player |\n| :--: | :----- |\n"
+                md += "\n<details>\n  <summary>Last placements</summary>\n\n"
+                md += "| Position | Player |\n| :------: | :----- |\n"
                 for m in state['moves'][-5:]:
-                    md += f"| `{m['move']}` ({self.symbols[m['symbol']]}) | [@{m['player']}](https://github.com/{m['player']}) |\n"
+                    md += f"| `{m['position']}` ({self.symbols[m['symbol']]}) | [@{m['player']}](https://github.com/{m['player']}) |\n"
                 md += "\n</details>\n"
 
         return md

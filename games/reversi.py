@@ -16,47 +16,49 @@ class Reversi:
         board[3][4] = board[4][3] = 'black'
         return board
 
-    def make_move(self, state, move, player):
-        if move == 'start':
-            state['board'] = self.create_board()
-            state['turn'] = 'black'
-            state['moves'] = []
-            return {'success': True, 'message': f'New Reversi game started by @{player}. Black goes first.'}
-
+    def place(self, state, position, player):
+        """Place a piece on the board, flipping opponent pieces as per Reversi rules."""
         if not state['board']:
             state['board'] = self.create_board()
             state['turn'] = 'black'
             state['moves'] = []
 
-        if len(move) != 2:
+        if len(position) != 2:
             return {'success': False, 'message': 'Invalid format. Use A1-H8'}
 
-        col = ord(move[0]) - ord('A')
-        row = int(move[1]) - 1
+        col = ord(position[0]) - ord('A')
+        row = int(position[1]) - 1
 
         if row < 0 or row >= self.size or col < 0 or col >= self.size:
             return {'success': False, 'message': 'Position out of bounds'}
 
         flips = self.get_flips(state['board'], row, col, state['turn'])
         if not flips:
-            return {'success': False, 'message': 'Invalid move. No pieces to flip.'}
+            return {'success': False, 'message': 'Invalid placement. No pieces to flip.'}
 
-        state['board'][row][col] = state['turn']
+        current_color = state['turn']
+        state['board'][row][col] = current_color
         for fr, fc in flips:
-            state['board'][fr][fc] = state['turn']
+            state['board'][fr][fc] = current_color
 
-        state['moves'].append({'player': player, 'move': move, 'color': state['turn']})
+        state['moves'].append({'player': player, 'position': position, 'color': current_color})
 
-        next_turn = 'white' if state['turn'] == 'black' else 'black'
+        next_turn = 'white' if current_color == 'black' else 'black'
         if not self.has_valid_moves(state['board'], next_turn):
-            if not self.has_valid_moves(state['board'], state['turn']):
+            if not self.has_valid_moves(state['board'], current_color):
                 winner = self.get_winner(state['board'])
-                msg = f'Game over! {winner} wins. Last move by @{player}'
+                msg = f'Game over! {winner} wins. Last piece placed by @{player}'
                 state['board'] = None
                 return {'success': True, 'message': msg}
+            # skip next turn
+            next_turn = current_color
 
         state['turn'] = next_turn
-        return {'success': True, 'message': f'{move} by @{player}. Flipped {len(flips)}. Next: {self.symbols[state["turn"]]}'}
+        return {'success': True, 'message': f'{self.symbols[current_color]} placed at {position} by @{player}. Flipped {len(flips)}. Next: {self.symbols[state["turn"]]}'}
+
+    # keep make_move as alias for compatibility with game.py
+    def make_move(self, state, move, player):
+        return self.place(state, move, player)
 
     def get_flips(self, board, row, col, color):
         if board[row][col] is not None:
@@ -130,8 +132,7 @@ class Reversi:
                 elif cell == 'white':
                     md += f"<img src=\"{self.img_white}\" width=36px>"
                 elif position in valid_moves:
-                    # New issue format with title and body pre-filled
-                    title = f"Reversi:+Move+{position}"
+                    title = f"Reversi:+Put+{position}"
                     body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
                     link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
                     md += f"[{self.symbols[None]}]({link})"
@@ -147,17 +148,17 @@ class Reversi:
         else:
             links = []
             for p in sorted(valid_moves):
-                title = f"Reversi:+Move+{p}"
+                title = f"Reversi:+Put+{p}"
                 body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
                 link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
                 links.append(f"[{p}]({link})")
             md += "\n" + " · ".join(links) + "\n"
 
             if state['moves']:
-                md += "\n<details>\n  <summary>Last moves</summary>\n\n"
-                md += "| Move | Player |\n| :--: | :----- |\n"
+                md += "\n<details>\n  <summary>Last placements</summary>\n\n"
+                md += "| Position | Player |\n| :------: | :----- |\n"
                 for m in state['moves'][-5:]:
-                    md += f"| `{m['move']}` ({self.symbols[m['color']]}) | [@{m['player']}](https://github.com/{m['player']}) |\n"
+                    md += f"| `{m['position']}` ({self.symbols[m['color']]}) | [@{m['player']}](https://github.com/{m['player']}) |\n"
                 md += "\n</details>\n"
 
         return md
