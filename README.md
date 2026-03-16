@@ -1,12 +1,6 @@
-# 🎮 README Games Arena
+# README Games
 
-> **Click a square to play!** Multiple games in one README. Powered by GitHub Actions.
-
-[![Game Action](https://github.com/tdnb2b2/readme-games/actions/workflows/game-action.yml/badge.svg)](https://github.com/tdnb2b2/readme-games/actions/workflows/game-action.yml)
-
----
-
-## ❌⭕ Tic-Tac-Toe
+## Tic-Tac-Toe
 
 <!-- TICTACTOE_START -->
 *No active game.* [**Start Game →**](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt)
@@ -14,7 +8,7 @@
 
 ---
 
-## ⚫⚪ Reversi / Othello
+## Reversi / Othello
 
 <!-- REVERSI_START -->
 *No active game.* [**Start Game →**](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi)
@@ -22,7 +16,7 @@
 
 ---
 
-## 🔢 Number Guessing (1-100)
+## Number Guessing (1-100)
 
 <!-- GUESS_START -->
 *No active game.* [**Start Game →**](https://github.com/tdnb2b2/readme-games/issues/3/comments/new?body=start%20guess)
@@ -30,14 +24,14 @@
 
 ---
 
-## 🏆 Top 10 Players
+## Top 10 Players
 
 <!-- LEADERBOARD_START -->
 *まだプレイヤーがいません。最初のプレイヤーになろう！*
 <!-- LEADERBOARD_END -->
 
 <details>
-  <summary>📊 All Participants</summary>
+  <summary>All Participants</summary>
 
 <!-- PARTICIPANTS_START -->
 *まだ参加者がいません。最初の参加者になろう！*
@@ -48,7 +42,7 @@
 ---
 
 <details>
-  <summary>ℹ️ How it works</summary>
+  <summary>How it works</summary>
 
 ### Game System
 
@@ -64,7 +58,7 @@
 - **Engine**: Python + PyGithub
 - **Storage**: Single JSON file
 - **Response**: 10-15 seconds
-- **Mobile**: ✅ Works in GitHub app
+- **Mobile**: Works in GitHub app
 
 ### Commands
 
@@ -78,4 +72,4 @@
 
 ---
 
-**Made with ❤️ using GitHub Actions** | Inspired by [@marcizhu](https://github.com/marcizhu/marcizhu)
+Inspired by [@marcizhu](https://github.com/marcizhu/marcizhu)
