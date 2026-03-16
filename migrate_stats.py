@@ -1,13 +1,4 @@
 #!/usr/bin/env python3
-"""
-One-time migration script.
-Scans ALL closed issues, checks bot comment for success,
-and rebuilds game_stats.json from scratch.
-
-Success patterns per game:
-  Reversi / Tic-Tac-Toe : 'placed at'
-  Number Guess (any)    : proximity hints | correct | new round
-"""
 import os
 import re
 import json
@@ -18,9 +9,8 @@ TTT_RE   = re.compile(r'^Tic-Tac-Toe:\s*Put\s+[A-Ca-c][1-3]\s*$')
 REV_RE   = re.compile(r'^Reversi:\s*Put\s+[A-Ha-h][1-8]\s*$')
 GUESS_RE = re.compile(r'^Number\s+Guess:\s*\d+\s*$', re.I)
 
-# Proximity-based hints + legacy 'too high/low' + correct
 GUESS_SUCCESS_RE = re.compile(
-    r'on fire|so close|getting warm|lukewarm|ice cold|too high|too low|correct|guessed',
+    r'extremely close|very close|(?<!not )close|way higher|way lower|higher|lower|correct|guessed|too high|too low|on fire|so close|getting warm|lukewarm|ice cold',
     re.I
 )
 

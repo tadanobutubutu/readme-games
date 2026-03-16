@@ -9,35 +9,18 @@ class NumberGuess:
 
     def _hint(self, guess, target):
         diff = abs(guess - target)
-        direction = 'higher' if guess < target else 'lower'
+        arrow = '🔺' if guess < target else '🔻'
 
-        if diff == 0:
-            return None  # handled as correct
-        elif diff <= 2:
-            if direction == 'higher':
-                return ("🔥 On fire! Just a tiny bit higher!", 'fire')
-            else:
-                return ("🔥 On fire! Just a tiny bit lower!", 'fire')
+        if diff <= 2:
+            return f'Extremely close {arrow}'
         elif diff <= 5:
-            if direction == 'higher':
-                return ("♨️ So close! A little higher.", 'hot')
-            else:
-                return ("♨️ So close! A little lower.", 'hot')
+            return f'Very close {arrow}'
         elif diff <= 15:
-            if direction == 'higher':
-                return ("🌡️ Getting warm — go higher.", 'warm')
-            else:
-                return ("🌡️ Getting warm — go lower.", 'warm')
+            return f'Close {arrow}'
         elif diff <= 30:
-            if direction == 'higher':
-                return ("🌤️ Lukewarm. Higher.", 'lukewarm')
-            else:
-                return ("🌤️ Lukewarm. Lower.", 'lukewarm')
+            return f'Higher {arrow}' if guess < target else f'Lower {arrow}'
         else:
-            if direction == 'higher':
-                return ("🧊 Ice cold. Way higher.", 'cold')
-            else:
-                return ("🧊 Ice cold. Way lower.", 'cold')
+            return f'Way higher {arrow}' if guess < target else f'Way lower {arrow}'
 
     def parse_state(self, section):
         m = re.search(r'<!-- GUESS_STATE:(.*?) -->', section)
@@ -71,30 +54,13 @@ class NumberGuess:
 
         if value == state['number']:
             state['solved'] = True
-            msg = f'🎉 Correct! @{player} guessed **{state["number"]}** in {n_attempts} attempt(s)!'
+            msg = f'Correct! @{player} guessed {state["number"]} in {n_attempts} attempt(s).'
             state['number'] = None
             return {'success': True, 'message': msg}
 
-        hint_text, hint_level = self._hint(value, state['number'])
-        msg = f'{hint_text} (attempt #{n_attempts} by @{player} — guessed {value})'
+        hint = self._hint(value, state['number'])
+        msg = f'{value} — {hint} (attempt #{n_attempts} by @{player})'
         return {'success': True, 'message': msg}
-
-    def _hint_label(self, guess, target):
-        """For render table: returns short label"""
-        if target is None:
-            return '?'
-        diff = abs(guess - target)
-        direction = '↑' if guess < target else '↓'
-        if diff <= 2:
-            return f'🔥 On fire! {direction}'
-        elif diff <= 5:
-            return f'♨️ So close! {direction}'
-        elif diff <= 15:
-            return f'🌡️ Warm {direction}'
-        elif diff <= 30:
-            return f'🌤️ Lukewarm {direction}'
-        else:
-            return f'🧊 Ice cold {direction}'
 
     def render(self, state, owner='tdnb2b2', repo='readme-games'):
         is_active = state.get('number') is not None and not state.get('solved', False)
@@ -139,7 +105,7 @@ class NumberGuess:
                 md += '<details>\n  <summary>Last 5 attempts</summary>\n\n'
                 md += '| # | Guess | Player | Hint |\n| :-: | :---: | :----- | :--- |\n'
                 for i, a in enumerate(attempts[-5:], max(1, len(attempts) - 4)):
-                    hint = self._hint_label(a['guess'], state.get('number'))
+                    hint = self._hint(a['guess'], state.get('number'))
                     md += f'| {i} | **{a["guess"]}** | [@{a["player"]}](https://github.com/{a["player"]}) | {hint} |\n'
                 md += '\n</details>\n'
 
