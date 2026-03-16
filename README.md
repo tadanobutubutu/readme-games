@@ -67,13 +67,12 @@
 ## 🔢 Number Guessing (1-100)
 
 <!-- GUESS_START -->
-**Guess the secret number between 1 and 100.**
+**Guess the secret number** | Range: **1 – 100** | Attempts: 0
 
-<!-- GUESS_STATE:{"number":null,"attempts":[],"solved":false} -->
+<!-- GUESS_STATE:{"number":34,"attempts":[],"solved":false} -->
 
 Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+25&body=Just+click+Submit+new+issue) · [50](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+50&body=Just+click+Submit+new+issue) · [75](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+75&body=Just+click+Submit+new+issue)
 
-[Start a new round →](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+Start+New+Game&body=Just+click+Submit+new+issue)
 
 <!-- GUESS_END -->
 
@@ -84,7 +83,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- LEADERBOARD_START -->
 | Rank | Player | Total | TTT | Reversi | Guess |
 |------|--------|-------|-----|---------|-------|
-| 1st | @tadanobutubutu | 1 | 0 | 1 | 0 |
+| 1st | @tadanobutubutu | 1 | 0 | 0 | 1 |
 
 <!-- LEADERBOARD_END -->
 
