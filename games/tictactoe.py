@@ -12,9 +12,11 @@ class TicTacToe:
     def create_board(self):
         return [[None for _ in range(self.size)] for _ in range(self.size)]
 
-    def place(self, state, position, player):
-        """Place the current turn's symbol on the board."""
-        if not state['board']:
+    def make_move(self, state, position, player):
+        """Place a piece on the specified position. Never moves existing pieces."""
+
+        # Initialize board if game not yet started
+        if state.get('board') is None:
             state['board'] = self.create_board()
             state['turn'] = 'X'
             state['moves'] = []
@@ -22,36 +24,42 @@ class TicTacToe:
         if len(position) != 2:
             return {'success': False, 'message': 'Invalid format. Use A1-C3 (e.g., B2)'}
 
-        col = ord(position[0]) - ord('A')
+        col = ord(position[0].upper()) - ord('A')
         row = int(position[1]) - 1
 
         if row < 0 or row >= self.size or col < 0 or col >= self.size:
             return {'success': False, 'message': 'Position out of bounds'}
 
+        # Strictly reject occupied squares - no movement allowed
         if state['board'][row][col] is not None:
-            return {'success': False, 'message': 'That square is already taken!'}
+            return {'success': False, 'message': f'Square {position} is already occupied!'}
 
         current_symbol = state['turn']
         state['board'][row][col] = current_symbol
-        state['moves'].append({'player': player, 'position': position, 'symbol': current_symbol})
+        state['moves'].append({
+            'player': player,
+            'position': position.upper(),
+            'symbol': current_symbol
+        })
 
         winner = self.check_winner(state['board'])
         if winner:
-            msg = f'{self.symbols[winner]} wins! Game over. Placed by @{player}'
             state['board'] = None
-            return {'success': True, 'message': msg}
+            state['turn'] = 'X'
+            state['moves'] = []
+            return {'success': True, 'message': f'{self.symbols[winner]} wins! Game over. Placed by @{player}'}
 
         if self.is_full(state['board']):
-            msg = f'Draw! Last piece placed by @{player}'
             state['board'] = None
-            return {'success': True, 'message': msg}
+            state['turn'] = 'X'
+            state['moves'] = []
+            return {'success': True, 'message': f'Draw! Last piece placed by @{player}'}
 
         state['turn'] = 'O' if current_symbol == 'X' else 'X'
-        return {'success': True, 'message': f'{self.symbols[current_symbol]} placed at {position} by @{player}. Next: {self.symbols[state["turn"]]}'}
-
-    # keep make_move as alias for compatibility with game.py
-    def make_move(self, state, move, player):
-        return self.place(state, move, player)
+        return {
+            'success': True,
+            'message': f'{self.symbols[current_symbol]} placed at {position.upper()} by @{player}. Next: {self.symbols[state["turn"]]}'
+        }
 
     def check_winner(self, board):
         for i in range(self.size):
@@ -69,8 +77,8 @@ class TicTacToe:
         return all(cell is not None for row in board for cell in row)
 
     def render(self, state, owner='tdnb2b2', repo='readme-games'):
-        board = state['board'] if state['board'] else self.create_board()
-        is_active = state['board'] is not None
+        board = state['board'] if state.get('board') else self.create_board()
+        is_active = state.get('board') is not None
 
         if is_active:
             md = f"\n**Turn:** {self.symbols[state['turn']]}\n\n"
@@ -114,7 +122,7 @@ class TicTacToe:
                         empty.append(f"[{pos}]({link})")
             md += "\n" + " · ".join(empty) + "\n"
 
-            if state['moves']:
+            if state.get('moves'):
                 md += "\n<details>\n  <summary>Last placements</summary>\n\n"
                 md += "| Position | Player |\n| :------: | :----- |\n"
                 for m in state['moves'][-5:]:

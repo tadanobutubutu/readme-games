@@ -10,23 +10,30 @@ jobs:
     permissions:
       issues: write
       contents: write
-    
+
     steps:
     - uses: actions/checkout@v3
       with:
         ref: main
-    
+        fetch-depth: 0
+
+    - name: Pull latest changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Game Bot"
+        git pull origin main --rebase
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
         cache: 'pip'
-    
+
     - name: Install dependencies
       run: |
         pip install --no-cache-dir -r requirements.txt
-    
-    - name: Execute game move
+
+    - name: Execute game placement
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -34,10 +41,8 @@ jobs:
         ACTOR: ${{ github.event.issue.user.login }}
         REPO: ${{ github.repository }}
       run: python game.py
-    
+
     - name: Commit and push if changed
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "Game Bot"
         git add -A
-        git diff --quiet && git diff --staged --quiet || (git commit -m "🎮 Update game state by @${{ github.event.issue.user.login }}" && git push)
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🎮 Update game state by @${{ github.event.issue.user.login }}" && git push origin main)
