@@ -6,7 +6,7 @@ and rebuilds game_stats.json from scratch.
 
 Success patterns per game:
   Reversi / Tic-Tac-Toe : 'placed at'
-  Number Guess (any)    : 'too high' | 'too low' | 'correct' | 'guessed'
+  Number Guess (any)    : proximity hints | correct | new round
 """
 import os
 import re
@@ -18,11 +18,16 @@ TTT_RE   = re.compile(r'^Tic-Tac-Toe:\s*Put\s+[A-Ca-c][1-3]\s*$')
 REV_RE   = re.compile(r'^Reversi:\s*Put\s+[A-Ha-h][1-8]\s*$')
 GUESS_RE = re.compile(r'^Number\s+Guess:\s*\d+\s*$', re.I)
 
-# Success patterns per game type
+# Proximity-based hints + legacy 'too high/low' + correct
+GUESS_SUCCESS_RE = re.compile(
+    r'on fire|so close|getting warm|lukewarm|ice cold|too high|too low|correct|guessed',
+    re.I
+)
+
 SUCCESS = {
     'tictactoe': re.compile(r'placed at', re.I),
     'reversi':   re.compile(r'placed at', re.I),
-    'guess':     re.compile(r'too high|too low|correct|guessed', re.I),
+    'guess':     GUESS_SUCCESS_RE,
 }
 
 def main():
