@@ -1,9 +1,18 @@
 {
-  "players": {},
-  "participants": [],
+  "players": {
+    "tadanobutubutu": {
+      "total": 1,
+      "tictactoe": 0,
+      "reversi": 0,
+      "guess": 1
+    }
+  },
+  "participants": [
+    "tadanobutubutu"
+  ],
   "games": {
     "tictactoe": 0,
     "reversi": 0,
-    "guess": 0
+    "guess": 1
   }
 }
