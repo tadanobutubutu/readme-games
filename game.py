@@ -15,214 +15,222 @@ class GameManager:
         self.issue_num = int(os.environ['ISSUE_NUMBER'])
         self.issue = self.repo.get_issue(self.issue_num)
         self.actor = os.environ['ACTOR']
-        self.issue_title = os.environ.get('ISSUE_TITLE', '')
+        self.issue_title = os.environ.get('ISSUE_TITLE', '').strip()
         self.admin_user = 'tadanobutubutu'
-        
-        self.data_file = Path('game_data.json')
-        self.load_data()
-        
-        self.games = {
-            'tictactoe': TicTacToe(),
-            'reversi': Reversi(),
-            'guess': NumberGuess()
-        }
-        
-        if 'issue_numbers' in self.data:
-            for game_name, game in self.games.items():
-                if game_name in self.data['issue_numbers']:
-                    if hasattr(game, 'set_issue_number'):
-                        game.set_issue_number(self.data['issue_numbers'][game_name])
-    
-    def load_data(self):
-        if self.data_file.exists():
-            with open(self.data_file, 'r') as f:
-                self.data = json.load(f)
-        else:
-            self.data = {
-                'players': {},
-                'participants': [],
-                'issue_numbers': {'tictactoe': 1, 'reversi': 2, 'guess': 3},
-                'tictactoe': {'board': None, 'turn': 'X', 'moves': []},
-                'reversi': {'board': None, 'turn': 'black', 'moves': []},
-                'guess': {'number': None, 'attempts': [], 'solved': False}
-            }
-    
-    def save_data(self):
-        with open(self.data_file, 'w') as f:
-            json.dump(self.data, f, indent=2)
-    
-    def update_player_stats(self, game_type):
-        if self.actor not in self.data['players']:
-            self.data['players'][self.actor] = {'total': 0, 'tictactoe': 0, 'reversi': 0, 'guess': 0}
-        self.data['players'][self.actor]['total'] += 1
-        self.data['players'][self.actor][game_type] += 1
-        
-        if self.actor not in self.data['participants']:
-            self.data['participants'].append(self.actor)
-    
-    def invite_as_read_only_collaborator(self):
-        try:
-            if self.repo.has_in_collaborators(self.actor):
-                return
-            self.repo.add_to_collaborators(self.actor, permission='pull')
-            print(f"Invited @{self.actor} as read-only collaborator")
-        except GithubException as e:
-            print(f"Could not invite @{self.actor}: {e.data.get('message', str(e))}")
-            pass
-    
-    def get_top_players(self, limit=10):
-        return sorted(self.data['players'].items(), key=lambda x: x[1]['total'], reverse=True)[:limit]
-    
-    def parse_move(self):
-        title = self.issue_title.strip()
-        
-        # Admin reset commands
+        self.owner, self.repo_name = os.environ['REPO'].split('/')
+
+        self.stats_file = Path('game_stats.json')
+        self.stats = self._load_stats()
+
+        self.ttt = TicTacToe()
+        self.rev = Reversi()
+        self.guess = NumberGuess()
+
+    # ------------------------------------------------------------------ stats
+    def _load_stats(self):
+        if self.stats_file.exists():
+            with open(self.stats_file) as f:
+                return json.load(f)
+        return {'players': {}, 'participants': []}
+
+    def _save_stats(self):
+        with open(self.stats_file, 'w') as f:
+            json.dump(self.stats, f, indent=2)
+
+    def _record(self, game_type):
+        p = self.stats['players']
+        if self.actor not in p:
+            p[self.actor] = {'total': 0, 'tictactoe': 0, 'reversi': 0, 'guess': 0}
+        p[self.actor]['total'] += 1
+        p[self.actor][game_type] += 1
+        if self.actor not in self.stats['participants']:
+            self.stats['participants'].append(self.actor)
+
+    # ------------------------------------------------------------------ parse
+    def parse(self):
+        t = self.issue_title
+
+        # Admin reset
         if self.actor == self.admin_user:
-            if re.search(r'リセット\s*(ox|oxゲーム|まるばつ|○×|tictactoe|tic)', title, re.IGNORECASE):
-                return 'tictactoe', 'reset'
-            if re.search(r'リセット\s*(オセロ|オセロゲーム|reversi|リバーシ)', title, re.IGNORECASE):
-                return 'reversi', 'reset'
-            if re.search(r'リセット\s*(数当て?|数当|guess|ゲス)', title, re.IGNORECASE):
-                return 'guess', 'reset'
-        
-        # Tic-Tac-Toe: Put A1 to C3 (also accept Move for backwards compat)
-        ttt_match = re.match(r'Tic-Tac-Toe:\s*(?:Put|Move)\s+([A-C][1-3])', title, re.IGNORECASE)
-        if ttt_match:
-            return 'tictactoe', ttt_match.group(1).upper()
-        
-        # Reversi: Put A1 to H8 (also accept Move for backwards compat)
-        rev_match = re.match(r'Reversi:\s*(?:Put|Move)\s+([A-H][1-8])', title, re.IGNORECASE)
-        if rev_match:
-            return 'reversi', rev_match.group(1).upper()
-        
-        # Number Guess: 1-100
-        guess_match = re.match(r'Number\s+Guess:\s*(\d+)', title, re.IGNORECASE)
-        if guess_match:
-            return 'guess', int(guess_match.group(1))
-        
-        # Number Guess: Start New Game
-        if re.match(r'Number\s+Guess:\s*Start', title, re.IGNORECASE):
+            if re.search(r'リセット\s*(ox|oxゲーム|まるばつ|tictactoe|tic)', t, re.I):
+                return 'ttt_reset', None
+            if re.search(r'リセット\s*(オセロ|オセロゲーム|reversi|リバーシ)', t, re.I):
+                return 'rev_reset', None
+            if re.search(r'リセット\s*(数当て?|guess|ゲス)', t, re.I):
+                return 'guess_reset', None
+
+        m = re.match(r'Tic-Tac-Toe:\s*Put\s+([A-Ca-c][1-3])', t)
+        if m: return 'ttt', m.group(1).upper()
+
+        m = re.match(r'Reversi:\s*Put\s+([A-Ha-h][1-8])', t)
+        if m: return 'rev', m.group(1).upper()
+
+        m = re.match(r'Number\s+Guess:\s*(\d+)', t, re.I)
+        if m: return 'guess', int(m.group(1))
+
+        if re.match(r'Number\s+Guess:\s*Start', t, re.I):
             return 'guess', 'start'
-        
+
         return None, None
-    
-    def reset_game(self, game_type):
-        if game_type == 'tictactoe':
-            self.data['tictactoe'] = {'board': None, 'turn': 'X', 'moves': []}
-        elif game_type == 'reversi':
-            self.data['reversi'] = {'board': None, 'turn': 'black', 'moves': []}
-        elif game_type == 'guess':
-            self.data['guess'] = {'number': None, 'attempts': [], 'solved': False}
-        
-        self.save_data()
-        self.update_readme()
-        return f'♻️ Game reset by admin @{self.actor}. Click any square to start a new game!'
-    
-    def update_readme(self):
-        readme = self.repo.get_contents('README.md')
-        content = readme.decoded_content.decode('utf-8')
-        
-        owner, repo_name = self.repo.full_name.split('/')
-        
-        for game_name, game in self.games.items():
-            marker_start = f"<!-- {game_name.upper()}_START -->"
-            marker_end = f"<!-- {game_name.upper()}_END -->"
-            
-            if marker_start in content and marker_end in content:
-                if hasattr(game, 'render') and game_name in ['tictactoe', 'reversi']:
-                    game_section = game.render(self.data[game_name], owner=owner, repo=repo_name)
-                else:
-                    game_section = game.render(self.data[game_name])
-                
-                pattern = f"{re.escape(marker_start)}.*?{re.escape(marker_end)}"
-                replacement = f"{marker_start}\n{game_section}\n{marker_end}"
-                content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-        
-        leaderboard = self.render_leaderboard()
-        lb_start = "<!-- LEADERBOARD_START -->"
-        lb_end = "<!-- LEADERBOARD_END -->"
-        if lb_start in content and lb_end in content:
-            pattern = f"{re.escape(lb_start)}.*?{re.escape(lb_end)}"
-            replacement = f"{lb_start}\n{leaderboard}\n{lb_end}"
-            content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-        
-        participants_section = self.render_participants()
-        p_start = "<!-- PARTICIPANTS_START -->"
-        p_end = "<!-- PARTICIPANTS_END -->"
-        if p_start in content and p_end in content:
-            pattern = f"{re.escape(p_start)}.*?{re.escape(p_end)}"
-            replacement = f"{p_start}\n{participants_section}\n{p_end}"
-            content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-        
-        self.repo.update_file('README.md', f'Update README after placement by @{self.actor}', content, readme.sha, branch='main')
-    
-    def render_leaderboard(self):
-        top = self.get_top_players()
+
+    # ------------------------------------------------------------------ readme
+    def _get_readme(self):
+        obj = self.repo.get_contents('README.md')
+        return obj, obj.decoded_content.decode('utf-8')
+
+    def _section(self, content, name):
+        """Extract content between <!-- NAME_START --> and <!-- NAME_END -->"""
+        m = re.search(rf'<!-- {name}_START -->(.*?)<!-- {name}_END -->', content, re.DOTALL)
+        return m.group(1) if m else ''
+
+    def _replace_section(self, content, name, new_body):
+        return re.sub(
+            rf'<!-- {name}_START -->.*?<!-- {name}_END -->',
+            f'<!-- {name}_START -->\n{new_body}\n<!-- {name}_END -->',
+            content, flags=re.DOTALL
+        )
+
+    def _update_readme(self, content, readme_obj):
+        self.repo.update_file(
+            'README.md',
+            f'🎮 Update game state by @{self.actor}',
+            content,
+            readme_obj.sha,
+            branch='main'
+        )
+
+    def _render_leaderboard(self):
+        top = sorted(self.stats['players'].items(), key=lambda x: x[1]['total'], reverse=True)[:10]
         if not top:
-            return "*No players yet. Be the first!*"
-        
-        md = "| Rank | Player | Total | TTT | Reversi | Guess |\n"
-        md += "|------|--------|-------|-----|---------|-------|\n"
-        for i, (player, stats) in enumerate(top, 1):
-            medal = "1st" if i == 1 else "2nd" if i == 2 else "3rd" if i == 3 else f"{i}th"
-            md += f"| {medal} | @{player} | {stats['total']} | {stats['tictactoe']} | {stats['reversi']} | {stats['guess']} |\n"
+            return '*No players yet. Be the first!*'
+        md = '| Rank | Player | Total | TTT | Reversi | Guess |\n'
+        md += '|------|--------|-------|-----|---------|-------|\n'
+        for i, (p, s) in enumerate(top, 1):
+            rank = ['1st','2nd','3rd'][i-1] if i <= 3 else f'{i}th'
+            md += f'| {rank} | @{p} | {s["total"]} | {s["tictactoe"]} | {s["reversi"]} | {s["guess"]} |\n'
         return md
-    
-    def render_participants(self):
-        if not self.data['participants']:
-            return "*No participants yet.*"
-        
-        total = len(self.data['participants'])
-        md = f"**Total participants: {total}**\n\n"
-        
-        for participant in self.data['participants']:
-            count = self.data['players'].get(participant, {}).get('total', 0)
-            md += f"[![@{participant}](https://img.shields.io/badge/@{participant}-{count}_placements-blue)]"
-            md += f"(https://github.com/{participant}) "
-        
+
+    def _render_participants(self):
+        if not self.stats['participants']:
+            return '*No participants yet.*'
+        total = len(self.stats['participants'])
+        md = f'**Total participants: {total}**\n\n'
+        for p in self.stats['participants']:
+            n = self.stats['players'].get(p, {}).get('total', 0)
+            md += f'[![@{p}](https://img.shields.io/badge/@{p}-{n}_plays-blue)](https://github.com/{p}) '
         return md
-    
+
+    # ------------------------------------------------------------------ reset
+    def _reset_ttt(self, readme_obj, content):
+        state = {'board': self.ttt._empty_board(), 'turn': self.ttt.X, 'log': []}
+        new_section = self.ttt.render(state, self.owner, self.repo_name)
+        content = self._replace_section(content, 'TICTACTOE', new_section)
+        self._update_readme(content, readme_obj)
+        return '♻️ Tic-Tac-Toe reset by @' + self.actor
+
+    def _reset_rev(self, readme_obj, content):
+        state = {'board': self.rev._empty_board(), 'turn': self.rev.BLACK, 'log': []}
+        new_section = self.rev.render(state, self.owner, self.repo_name)
+        content = self._replace_section(content, 'REVERSI', new_section)
+        self._update_readme(content, readme_obj)
+        return '♻️ Reversi reset by @' + self.actor
+
+    def _reset_guess(self, readme_obj, content):
+        # load guess state and reset
+        guess_section = self._section(content, 'GUESS')
+        state = self.guess.parse_state(guess_section)
+        state['number'] = None
+        state['attempts'] = []
+        state['solved'] = False
+        new_section = self.guess.render(state)
+        content = self._replace_section(content, 'GUESS', new_section)
+        self._update_readme(content, readme_obj)
+        return '♻️ Number Guess reset by @' + self.actor
+
+    # ------------------------------------------------------------------ run
     def run(self):
-        game_type, move = self.parse_move()
-        
-        if not game_type:
+        action, value = self.parse()
+
+        if action is None:
             self.issue.create_comment(
-                f"⚠️ Invalid game command in title: `{self.issue_title}`\n\n"
-                "Expected format:\n"
-                "- `Tic-Tac-Toe: Put A1` (A1 to C3)\n"
-                "- `Reversi: Put D4` (A1 to H8)\n"
-                "- `Number Guess: 50` (1 to 100)\n"
-                "- `Number Guess: Start New Game`"
+                f'⚠️ Unknown command: `{self.issue_title}`\n\n'
+                'Expected:\n'
+                '- `Tic-Tac-Toe: Put A1` (A1–C3)\n'
+                '- `Reversi: Put D4` (A1–H8)\n'
+                '- `Number Guess: 50` (1–100)\n'
+                '- `Number Guess: Start New Game`'
             )
             self.issue.edit(state='closed')
             return
-        
-        if move == 'reset':
-            if self.actor != self.admin_user:
-                self.issue.create_comment(f"❌ Reset command is only available for @{self.admin_user}")
-                self.issue.edit(state='closed')
-                return
-            message = self.reset_game(game_type)
-            self.issue.create_comment(message)
+
+        readme_obj, content = self._get_readme()
+
+        # --- resets ---
+        if action == 'ttt_reset':
+            msg = self._reset_ttt(readme_obj, content)
+            self.issue.create_comment(msg)
             self.issue.edit(state='closed')
             return
-        
-        game = self.games[game_type]
-        result = game.make_move(self.data[game_type], move, self.actor)
-        
-        if result['success']:
-            self.update_player_stats(game_type)
-            if self.data['players'][self.actor]['total'] == 1:
-                self.invite_as_read_only_collaborator()
-            self.save_data()
-            self.update_readme()
-            if result.get('message'):
+        if action == 'rev_reset':
+            msg = self._reset_rev(readme_obj, content)
+            self.issue.create_comment(msg)
+            self.issue.edit(state='closed')
+            return
+        if action == 'guess_reset':
+            msg = self._reset_guess(readme_obj, content)
+            self.issue.create_comment(msg)
+            self.issue.edit(state='closed')
+            return
+
+        # --- tictactoe ---
+        if action == 'ttt':
+            section = self._section(content, 'TICTACTOE')
+            state = self.ttt.parse_state(section)
+            result = self.ttt.place(state, value, self.actor)
+            if not result['success']:
                 self.issue.create_comment(result['message'])
-            self.issue.edit(state='closed')
-        else:
-            self.issue.create_comment(f"❌ Error: {result.get('message', 'Invalid placement')}")
-            self.issue.edit(state='closed')
+                self.issue.edit(state='closed')
+                return
+            new_section = self.ttt.render(state, self.owner, self.repo_name)
+            content = self._replace_section(content, 'TICTACTOE', new_section)
+
+        # --- reversi ---
+        elif action == 'rev':
+            section = self._section(content, 'REVERSI')
+            state = self.rev.parse_state(section)
+            result = self.rev.place(state, value, self.actor)
+            if not result['success']:
+                self.issue.create_comment(result['message'])
+                self.issue.edit(state='closed')
+                return
+            new_section = self.rev.render(state, self.owner, self.repo_name)
+            content = self._replace_section(content, 'REVERSI', new_section)
+
+        # --- number guess ---
+        elif action == 'guess':
+            section = self._section(content, 'GUESS')
+            state = self.guess.parse_state(section)
+            result = self.guess.place(state, value, self.actor)
+            if not result['success']:
+                self.issue.create_comment(result['message'])
+                self.issue.edit(state='closed')
+                return
+            new_section = self.guess.render(state)
+            content = self._replace_section(content, 'GUESS', new_section)
+
+        # update leaderboard & participants
+        self._record(action if action in ('tictactoe','reversi','guess') else
+                     ('tictactoe' if action=='ttt' else 'reversi' if action=='rev' else 'guess'))
+        self._save_stats()
+
+        lb = self._render_leaderboard()
+        content = self._replace_section(content, 'LEADERBOARD', lb)
+        pa = self._render_participants()
+        content = self._replace_section(content, 'PARTICIPANTS', pa)
+
+        self._update_readme(content, readme_obj)
+        self.issue.create_comment(result['message'])
+        self.issue.edit(state='closed')
 
 if __name__ == '__main__':
-    manager = GameManager()
-    manager.run()
+    GameManager().run()

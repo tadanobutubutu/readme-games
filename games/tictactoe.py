@@ -1,132 +1,127 @@
+import re
+
 class TicTacToe:
-    def __init__(self):
-        self.size = 3
-        self.symbols = {'X': '❌', 'O': '⭕', None: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}
-        self.img_x = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg'
-        self.img_o = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg'
-        self.issue_number = 1
+    EMPTY = 'EMPTY'
+    X = 'X'
+    O = 'O'
 
-    def set_issue_number(self, num):
-        self.issue_number = num
+    IMG_X = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg'
+    IMG_O = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg'
+    SYM = {X: '❌', O: '⭕', EMPTY: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}
 
-    def create_board(self):
-        return [[None for _ in range(self.size)] for _ in range(self.size)]
+    # Parse board state from README hidden comment
+    # State format stored as hidden comment inside TICTACTOE markers:
+    # <!-- STATE:{"board":[[...]]},{"turn":"X"} -->
+    def parse_state(self, section):
+        m = re.search(r'<!-- TTT_STATE:(.*?) -->', section)
+        if m:
+            import json
+            return json.loads(m.group(1))
+        return {'board': self._empty_board(), 'turn': self.X, 'log': []}
 
-    def make_move(self, state, position, player):
-        """Place a piece on the specified position. Never moves existing pieces."""
+    def _empty_board(self):
+        return [[self.EMPTY]*3 for _ in range(3)]
 
-        # Initialize board if game not yet started
-        if state.get('board') is None:
-            state['board'] = self.create_board()
-            state['turn'] = 'X'
-            state['moves'] = []
-
-        if len(position) != 2:
-            return {'success': False, 'message': 'Invalid format. Use A1-C3 (e.g., B2)'}
+    def place(self, state, position, player):
+        board = state['board']
+        turn = state['turn']
 
         col = ord(position[0].upper()) - ord('A')
         row = int(position[1]) - 1
 
-        if row < 0 or row >= self.size or col < 0 or col >= self.size:
-            return {'success': False, 'message': 'Position out of bounds'}
+        if not (0 <= row <= 2 and 0 <= col <= 2):
+            return {'success': False, 'message': f'❌ Invalid position {position}. Use A1-C3.'}
 
-        # Strictly reject occupied squares - no movement allowed
-        if state['board'][row][col] is not None:
-            return {'success': False, 'message': f'Square {position} is already occupied!'}
+        if board[row][col] != self.EMPTY:
+            return {'success': False, 'message': f'❌ Square {position} is already occupied!'}
 
-        current_symbol = state['turn']
-        state['board'][row][col] = current_symbol
-        state['moves'].append({
-            'player': player,
-            'position': position.upper(),
-            'symbol': current_symbol
-        })
+        board[row][col] = turn
+        log = state.get('log', [])
+        log.append({'player': player, 'pos': position.upper(), 'sym': turn})
+        state['log'] = log[-10:]  # keep last 10
 
-        winner = self.check_winner(state['board'])
+        winner = self._check_winner(board)
         if winner:
-            state['board'] = None
-            state['turn'] = 'X'
-            state['moves'] = []
-            return {'success': True, 'message': f'{self.symbols[winner]} wins! Game over. Placed by @{player}'}
+            state['board'] = self._empty_board()
+            state['turn'] = self.X
+            state['log'] = []
+            return {'success': True, 'game_over': True,
+                    'message': f'{self.SYM[winner]} wins! Game over. Placed by @{player}'}
 
-        if self.is_full(state['board']):
-            state['board'] = None
-            state['turn'] = 'X'
-            state['moves'] = []
-            return {'success': True, 'message': f'Draw! Last piece placed by @{player}'}
+        if all(board[r][c] != self.EMPTY for r in range(3) for c in range(3)):
+            state['board'] = self._empty_board()
+            state['turn'] = self.X
+            state['log'] = []
+            return {'success': True, 'game_over': True,
+                    'message': f'Draw! Last piece placed by @{player}'}
 
-        state['turn'] = 'O' if current_symbol == 'X' else 'X'
-        return {
-            'success': True,
-            'message': f'{self.symbols[current_symbol]} placed at {position.upper()} by @{player}. Next: {self.symbols[state["turn"]]}'
-        }
+        state['turn'] = self.O if turn == self.X else self.X
+        return {'success': True, 'game_over': False,
+                'message': f'{self.SYM[turn]} placed at {position.upper()} by @{player}. Next: {self.SYM[state["turn"]]}'}
 
-    def check_winner(self, board):
-        for i in range(self.size):
-            if board[i][0] and board[i][0] == board[i][1] == board[i][2]:
+    def _check_winner(self, board):
+        for i in range(3):
+            if board[i][0] != self.EMPTY and board[i][0] == board[i][1] == board[i][2]:
                 return board[i][0]
-            if board[0][i] and board[0][i] == board[1][i] == board[2][i]:
+            if board[0][i] != self.EMPTY and board[0][i] == board[1][i] == board[2][i]:
                 return board[0][i]
-        if board[0][0] and board[0][0] == board[1][1] == board[2][2]:
+        if board[0][0] != self.EMPTY and board[0][0] == board[1][1] == board[2][2]:
             return board[0][0]
-        if board[0][2] and board[0][2] == board[1][1] == board[2][0]:
+        if board[0][2] != self.EMPTY and board[0][2] == board[1][1] == board[2][0]:
             return board[0][2]
         return None
 
-    def is_full(self, board):
-        return all(cell is not None for row in board for cell in row)
-
     def render(self, state, owner='tdnb2b2', repo='readme-games'):
-        board = state['board'] if state.get('board') else self.create_board()
-        is_active = state.get('board') is not None
+        import json
+        board = state['board']
+        turn = state['turn']
 
-        if is_active:
-            md = f"\n**Turn:** {self.symbols[state['turn']]}\n\n"
-        else:
-            md = "\n"
+        # Check if any piece is on the board
+        has_pieces = any(board[r][c] != self.EMPTY for r in range(3) for c in range(3))
 
-        md += "|   | **A** | **B** | **C** |   |\n"
-        md += "|---|:-----:|:-----:|:-----:|:-:|\n"
+        md = ''
+        if has_pieces:
+            md += f'**Turn:** {self.SYM[turn]}\n\n'
 
-        for i in range(self.size):
-            md += f"| **{i+1}** | "
-            for j in range(self.size):
-                cell = board[i][j]
-                position = f"{chr(65+j)}{i+1}"
+        # Embed state as hidden comment (single source of truth)
+        md += f'<!-- TTT_STATE:{json.dumps(state, separators=(",",":"))} -->\n\n'
 
-                if cell is None:
-                    title = f"Tic-Tac-Toe:+Put+{position}"
-                    body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
-                    link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
-                    md += f"[{self.symbols[None]}]({link})"
-                elif cell == 'X':
-                    md += f"<img src=\"{self.img_x}\" width=40px>"
+        md += '|   | **A** | **B** | **C** |   |\n'
+        md += '|---|:-----:|:-----:|:-----:|:-:|\n'
+        for r in range(3):
+            md += f'| **{r+1}** | '
+            for c in range(3):
+                cell = board[r][c]
+                pos = f'{chr(65+c)}{r+1}'
+                if cell == self.EMPTY:
+                    url = f'https://github.com/{owner}/{repo}/issues/new?title=Tic-Tac-Toe:+Put+{pos}&body=Just+click+Submit+new+issue'
+                    md += f'[{self.SYM[self.EMPTY]}]({url})'
+                elif cell == self.X:
+                    md += f'<img src="{self.IMG_X}" width=40px>'
                 else:
-                    md += f"<img src=\"{self.img_o}\" width=40px>"
-                md += " | "
-            md += f"**{i+1}** |\n"
+                    md += f'<img src="{self.IMG_O}" width=40px>'
+                md += ' | '
+            md += f'**{r+1}** |\n'
+        md += '|   | **A** | **B** | **C** |   |\n'
 
-        md += "|   | **A** | **B** | **C** |   |\n"
-
-        if not is_active:
-            md += "\nClick any square to start!\n"
+        if not has_pieces:
+            md += '\nClick any square to start!\n'
         else:
-            empty = []
-            for i in range(self.size):
-                for j in range(self.size):
-                    if board[i][j] is None:
-                        pos = f"{chr(65+j)}{i+1}"
-                        title = f"Tic-Tac-Toe:+Put+{pos}"
-                        body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
-                        link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
-                        empty.append(f"[{pos}]({link})")
-            md += "\n" + " · ".join(empty) + "\n"
+            empty_links = []
+            for r in range(3):
+                for c in range(3):
+                    if board[r][c] == self.EMPTY:
+                        pos = f'{chr(65+c)}{r+1}'
+                        url = f'https://github.com/{owner}/{repo}/issues/new?title=Tic-Tac-Toe:+Put+{pos}&body=Just+click+Submit+new+issue'
+                        empty_links.append(f'[{pos}]({url})')
+            md += '\n' + ' · '.join(empty_links) + '\n'
 
-            if state.get('moves'):
-                md += "\n<details>\n  <summary>Last placements</summary>\n\n"
-                md += "| Position | Player |\n| :------: | :----- |\n"
-                for m in state['moves'][-5:]:
-                    md += f"| `{m['position']}` ({self.symbols[m['symbol']]}) | [@{m['player']}](https://github.com/{m['player']}) |\n"
-                md += "\n</details>\n"
+            log = state.get('log', [])
+            if log:
+                md += '\n<details>\n  <summary>Last placements</summary>\n\n'
+                md += '| Position | Player |\n| :------: | :----- |\n'
+                for entry in log[-5:]:
+                    md += f'| `{entry["pos"]}` ({self.SYM[entry["sym"]]}) | [@{entry["player"]}](https://github.com/{entry["player"]}) |\n'
+                md += '\n</details>\n'
 
         return md

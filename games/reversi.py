@@ -1,164 +1,147 @@
+import re
+
 class Reversi:
-    def __init__(self):
-        self.size = 8
-        self.symbols = {'black': '⚫', 'white': '⚪', None: '&nbsp;&nbsp;&nbsp;'}
-        self.img_black = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg'
-        self.img_white = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26aa.svg'
-        self.directions = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
-        self.issue_number = 2
+    EMPTY = None
+    BLACK = 'black'
+    WHITE = 'white'
 
-    def set_issue_number(self, num):
-        self.issue_number = num
+    IMG_BLACK = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg'
+    IMG_WHITE = 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26aa.svg'
+    SYM = {BLACK: '⚫', WHITE: '⚪', None: '&nbsp;&nbsp;&nbsp;'}
+    DIRS = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
 
-    def create_board(self):
-        board = [[None for _ in range(self.size)] for _ in range(self.size)]
-        board[3][3] = board[4][4] = 'white'
-        board[3][4] = board[4][3] = 'black'
+    def _empty_board(self):
+        board = [[None]*8 for _ in range(8)]
+        board[3][3] = board[4][4] = self.WHITE
+        board[3][4] = board[4][3] = self.BLACK
         return board
 
+    def parse_state(self, section):
+        m = re.search(r'<!-- REV_STATE:(.*?) -->', section)
+        if m:
+            import json
+            return json.loads(m.group(1))
+        return {'board': self._empty_board(), 'turn': self.BLACK, 'log': []}
+
     def place(self, state, position, player):
-        """Place a piece on the board, flipping opponent pieces as per Reversi rules."""
-        if not state['board']:
-            state['board'] = self.create_board()
-            state['turn'] = 'black'
-            state['moves'] = []
+        board = state['board']
+        turn = state['turn']
 
-        if len(position) != 2:
-            return {'success': False, 'message': 'Invalid format. Use A1-H8'}
-
-        col = ord(position[0]) - ord('A')
+        col = ord(position[0].upper()) - ord('A')
         row = int(position[1]) - 1
 
-        if row < 0 or row >= self.size or col < 0 or col >= self.size:
-            return {'success': False, 'message': 'Position out of bounds'}
+        if not (0 <= row <= 7 and 0 <= col <= 7):
+            return {'success': False, 'message': f'❌ Invalid position {position}. Use A1-H8.'}
 
-        flips = self.get_flips(state['board'], row, col, state['turn'])
+        flips = self._get_flips(board, row, col, turn)
         if not flips:
-            return {'success': False, 'message': 'Invalid placement. No pieces to flip.'}
+            return {'success': False, 'message': f'❌ Invalid placement at {position}. No pieces to flip.'}
 
-        current_color = state['turn']
-        state['board'][row][col] = current_color
+        board[row][col] = turn
         for fr, fc in flips:
-            state['board'][fr][fc] = current_color
+            board[fr][fc] = turn
 
-        state['moves'].append({'player': player, 'position': position, 'color': current_color})
+        log = state.get('log', [])
+        log.append({'player': player, 'pos': position.upper(), 'color': turn})
+        state['log'] = log[-10:]
 
-        next_turn = 'white' if current_color == 'black' else 'black'
-        if not self.has_valid_moves(state['board'], next_turn):
-            if not self.has_valid_moves(state['board'], current_color):
-                winner = self.get_winner(state['board'])
-                msg = f'Game over! {winner} wins. Last piece placed by @{player}'
-                state['board'] = None
-                return {'success': True, 'message': msg}
-            # skip next turn
-            next_turn = current_color
+        next_turn = self.WHITE if turn == self.BLACK else self.BLACK
+        if not self._has_valid(board, next_turn):
+            if not self._has_valid(board, turn):
+                winner = self._get_winner(board)
+                state['board'] = self._empty_board()
+                state['turn'] = self.BLACK
+                state['log'] = []
+                return {'success': True, 'game_over': True,
+                        'message': f'Game over! {winner} wins. Last piece placed by @{player}'}
+            next_turn = turn  # skip
 
         state['turn'] = next_turn
-        return {'success': True, 'message': f'{self.symbols[current_color]} placed at {position} by @{player}. Flipped {len(flips)}. Next: {self.symbols[state["turn"]]}'}
+        return {'success': True, 'game_over': False,
+                'message': f'{self.SYM[turn]} placed at {position.upper()} by @{player}. Flipped {len(flips)}. Next: {self.SYM[next_turn]}'}
 
-    # keep make_move as alias for compatibility with game.py
-    def make_move(self, state, move, player):
-        return self.place(state, move, player)
-
-    def get_flips(self, board, row, col, color):
+    def _get_flips(self, board, row, col, color):
         if board[row][col] is not None:
             return []
-        opponent = 'white' if color == 'black' else 'black'
+        opp = self.WHITE if color == self.BLACK else self.BLACK
         flips = []
-        for dr, dc in self.directions:
-            temp = []
-            r, c = row + dr, col + dc
-            while 0 <= r < self.size and 0 <= c < self.size:
-                if board[r][c] == opponent:
-                    temp.append((r, c))
+        for dr, dc in self.DIRS:
+            tmp = []
+            r, c = row+dr, col+dc
+            while 0 <= r < 8 and 0 <= c < 8:
+                if board[r][c] == opp:
+                    tmp.append((r, c))
                 elif board[r][c] == color:
-                    flips.extend(temp)
+                    flips.extend(tmp)
                     break
                 else:
                     break
-                r, c = r + dr, c + dc
+                r, c = r+dr, c+dc
         return flips
 
-    def has_valid_moves(self, board, color):
-        for r in range(self.size):
-            for c in range(self.size):
-                if self.get_flips(board, r, c, color):
-                    return True
-        return False
+    def _has_valid(self, board, color):
+        return any(self._get_flips(board, r, c, color)
+                   for r in range(8) for c in range(8))
 
-    def get_winner(self, board):
-        black = sum(row.count('black') for row in board)
-        white = sum(row.count('white') for row in board)
-        if black > white: return '⚫ Black'
-        if white > black: return '⚪ White'
+    def _get_winner(self, board):
+        b = sum(row.count(self.BLACK) for row in board)
+        w = sum(row.count(self.WHITE) for row in board)
+        if b > w: return '⚫ Black'
+        if w > b: return '⚪ White'
         return 'Draw'
 
     def render(self, state, owner='tdnb2b2', repo='readme-games'):
-        board = state['board'] if state['board'] else self.create_board()
-        is_active = state['board'] is not None
-        turn = state.get('turn', 'black')
+        import json
+        board = state['board']
+        turn = state['turn']
 
-        valid_moves = set()
-        if is_active:
-            for r in range(self.size):
-                for c in range(self.size):
-                    if self.get_flips(board, r, c, turn):
-                        valid_moves.add(f"{chr(65+c)}{r+1}")
-        else:
-            for r in range(self.size):
-                for c in range(self.size):
-                    if self.get_flips(board, r, c, 'black'):
-                        valid_moves.add(f"{chr(65+c)}{r+1}")
+        valid = set()
+        for r in range(8):
+            for c in range(8):
+                if self._get_flips(board, r, c, turn):
+                    valid.add(f'{chr(65+c)}{r+1}')
 
-        if is_active:
-            md = f"\n**Turn:** {self.symbols[turn]} | "
-            black = sum(row.count('black') for row in board)
-            white = sum(row.count('white') for row in board)
-            md += f"⚫ {black} – ⚪ {white}\n\n"
-        else:
-            md = "\n"
+        b_count = sum(row.count(self.BLACK) for row in board)
+        w_count = sum(row.count(self.WHITE) for row in board)
 
-        md += "|   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |\n"
-        md += "|---|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-:|\n"
+        md = f'**Turn:** {self.SYM[turn]} | ⚫ {b_count} – ⚪ {w_count}\n\n'
+        md += f'<!-- REV_STATE:{json.dumps(state, separators=(",",":"))} -->\n\n'
 
-        for i in range(self.size):
-            md += f"| **{i+1}** | "
-            for j in range(self.size):
-                cell = board[i][j]
-                position = f"{chr(65+j)}{i+1}"
-
-                if cell == 'black':
-                    md += f"<img src=\"{self.img_black}\" width=36px>"
-                elif cell == 'white':
-                    md += f"<img src=\"{self.img_white}\" width=36px>"
-                elif position in valid_moves:
-                    title = f"Reversi:+Put+{position}"
-                    body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
-                    link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
-                    md += f"[{self.symbols[None]}]({link})"
+        md += '|   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |\n'
+        md += '|---|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-:|\n'
+        for r in range(8):
+            md += f'| **{r+1}** | '
+            for c in range(8):
+                cell = board[r][c]
+                pos = f'{chr(65+c)}{r+1}'
+                if cell == self.BLACK:
+                    md += f'<img src="{self.IMG_BLACK}" width=36px>'
+                elif cell == self.WHITE:
+                    md += f'<img src="{self.IMG_WHITE}" width=36px>'
+                elif pos in valid:
+                    url = f'https://github.com/{owner}/{repo}/issues/new?title=Reversi:+Put+{pos}&body=Just+click+Submit+new+issue'
+                    md += f'[{self.SYM[None]}]({url})'
                 else:
-                    md += self.symbols[None]
-                md += " | "
-            md += f"**{i+1}** |\n"
+                    md += self.SYM[None]
+                md += ' | '
+            md += f'**{r+1}** |\n'
+        md += '|   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |\n'
 
-        md += "|   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |\n"
-
-        if not is_active:
-            md += "\nClick any highlighted square to start! (Black goes first)\n"
-        else:
+        if valid:
             links = []
-            for p in sorted(valid_moves):
-                title = f"Reversi:+Put+{p}"
-                body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
-                link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
-                links.append(f"[{p}]({link})")
-            md += "\n" + " · ".join(links) + "\n"
+            for p in sorted(valid):
+                url = f'https://github.com/{owner}/{repo}/issues/new?title=Reversi:+Put+{p}&body=Just+click+Submit+new+issue'
+                links.append(f'[{p}]({url})')
+            md += '\n' + ' · '.join(links) + '\n'
+        else:
+            md += '\nNo valid moves!\n'
 
-            if state['moves']:
-                md += "\n<details>\n  <summary>Last placements</summary>\n\n"
-                md += "| Position | Player |\n| :------: | :----- |\n"
-                for m in state['moves'][-5:]:
-                    md += f"| `{m['position']}` ({self.symbols[m['color']]}) | [@{m['player']}](https://github.com/{m['player']}) |\n"
-                md += "\n</details>\n"
+        log = state.get('log', [])
+        if log:
+            md += '\n<details>\n  <summary>Last placements</summary>\n\n'
+            md += '| Position | Player |\n| :------: | :----- |\n'
+            for entry in log[-5:]:
+                md += f'| `{entry["pos"]}` ({self.SYM[entry["color"]]}) | [@{entry["player"]}](https://github.com/{entry["player"]}) |\n'
+            md += '\n</details>\n'
 
         return md
