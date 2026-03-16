@@ -57,7 +57,7 @@ class NumberGuess:
         if is_active:
             md = f"\n**Guess the secret number** | Range: **{lo} – {hi}** | Attempts: {len(attempts)}\n\n"
         else:
-            md = "\n**Guess the secret number between 1 and 100**\n\n"
+            md = "\n**Guess the secret number between 1 and 100.**\n\n"
 
         if is_active:
             mid = (lo + hi) // 2
@@ -69,17 +69,20 @@ class NumberGuess:
 
         links = []
         for n in suggestions:
-            if is_active:
-                url = f"https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body={n}"
-            else:
-                url = f"https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body=start%20guess"
-            links.append(f"[**{n}**]({url})")
+            # New issue format with title and body pre-filled
+            title = f"Number+Guess:+{n}"
+            body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
+            url = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
+            links.append(f"[{n}]({url})")
 
-        md += "Quick guess: " + " · ".join(links) + "\n\n"
+        md += "Click to guess: " + " · ".join(links) + "\n\n"
 
         if not is_active:
-            start_url = f"https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body=start%20guess"
-            md += f"[Start a new round]({start_url})\n"
+            # Start new game link
+            title = "Number+Guess:+Start+New+Game"
+            body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
+            start_url = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
+            md += f"[Start a new round \u2192]({start_url})\n"
         else:
             if attempts:
                 md += "<details>\n  <summary>Last 5 attempts</summary>\n\n"
