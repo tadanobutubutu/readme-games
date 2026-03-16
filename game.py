@@ -78,22 +78,25 @@ class GameManager:
         Parse game information from issue title.
         Expected formats:
         - Tic-Tac-Toe: Move A1
-        - Tic-Tac-Toe: Reset (admin only)
         - Reversi: Move D4
-        - Reversi: Reset (admin only)
         - Number Guess: 50
-        - Number Guess: Reset (admin only)
         - Number Guess: Start New Game
+        - リセット oxゲーム / リセット ox (admin only)
+        - リセット オセロ / リセット reversi (admin only)
+        - リセット 数当て / リセット guess (admin only)
         """
         title = self.issue_title.strip()
         
-        # Admin reset commands
+        # Admin reset commands (Japanese simple format)
         if self.actor == self.admin_user:
-            if re.match(r'Tic-Tac-Toe:\s*Reset', title, re.IGNORECASE):
+            # OX game reset
+            if re.search(r'リセット.*(ox|まるばつ|○×)', title, re.IGNORECASE):
                 return 'tictactoe', 'reset'
-            if re.match(r'Reversi:\s*Reset', title, re.IGNORECASE):
+            # Reversi reset
+            if re.search(r'リセット.*(オセロ|reversi|リバーシ)', title, re.IGNORECASE):
                 return 'reversi', 'reset'
-            if re.match(r'Number\s+Guess:\s*Reset', title, re.IGNORECASE):
+            # Number guess reset
+            if re.search(r'リセット.*(数当て|guess|ゲス)', title, re.IGNORECASE):
                 return 'guess', 'reset'
         
         # Tic-Tac-Toe: Move A1 to C3
