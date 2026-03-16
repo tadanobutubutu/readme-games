@@ -5,9 +5,9 @@
 <!-- TICTACTOE_START -->
 |   | **A** | **B** | **C** |   |
 |---|:-----:|:-----:|:-----:|:-:|
-| **1** | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | **1** |
-| **2** | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | **2** |
-| **3** | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/1/comments/new?body=start%20ttt) | **3** |
+| **1** | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+A1&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+B1&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+C1&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | **1** |
+| **2** | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+A2&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+B2&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+C2&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | **2** |
+| **3** | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+A3&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+B3&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Move+C3&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | **3** |
 |   | **A** | **B** | **C** |   |
 
 Click any square to start!
@@ -22,10 +22,10 @@ Click any square to start!
 |---|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-:|
 | **1** | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | **1** |
 | **2** | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | **2** |
-| **3** | &nbsp; | &nbsp; | &nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi) | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi) | &nbsp; | &nbsp; | &nbsp; | **3** |
-| **4** | &nbsp; | &nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi) | ⚪ | ⚫ | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi) | &nbsp; | &nbsp; | **4** |
-| **5** | &nbsp; | &nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi) | ⚫ | ⚪ | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi) | &nbsp; | &nbsp; | **5** |
-| **6** | &nbsp; | &nbsp; | &nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi) | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/2/comments/new?body=start%20reversi) | &nbsp; | &nbsp; | &nbsp; | **6** |
+| **3** | &nbsp; | &nbsp; | &nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Move+D3&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Move+E3&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | &nbsp; | &nbsp; | &nbsp; | **3** |
+| **4** | &nbsp; | &nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Move+C4&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | ⚪ | ⚫ | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Move+F4&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | &nbsp; | &nbsp; | **4** |
+| **5** | &nbsp; | &nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Move+C5&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | ⚫ | ⚪ | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Move+F5&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | &nbsp; | &nbsp; | **5** |
+| **6** | &nbsp; | &nbsp; | &nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Move+D6&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Move+E6&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) | &nbsp; | &nbsp; | &nbsp; | **6** |
 | **7** | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | **7** |
 | **8** | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | **8** |
 |   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |
@@ -40,9 +40,9 @@ Click any highlighted square to start! (Black goes first)
 <!-- GUESS_START -->
 **Guess the secret number between 1 and 100.**
 
-Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/3/comments/new?body=start%20guess) · [50](https://github.com/tdnb2b2/readme-games/issues/3/comments/new?body=start%20guess) · [75](https://github.com/tdnb2b2/readme-games/issues/3/comments/new?body=start%20guess)
+Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+25&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) · [50](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+50&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D) · [75](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+75&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D)
 
-[Start a new round →](https://github.com/tdnb2b2/readme-games/issues/3/comments/new?body=start%20guess)
+[Start a new round →](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+Start+New+Game&body=Please+do+not+change+the+title.+Just+click+"Submit+new+issue".+You+don't+need+to+do+anything+else+:D)
 <!-- GUESS_END -->
 
 ---
@@ -67,13 +67,12 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/3/comments/n
 <details>
   <summary>How it works</summary>
 
-Click a square on the board. GitHub Actions processes your move and updates this README in ~15 seconds.
+Click a square on the board. This opens a pre-filled issue form. Just click "Submit new issue" and GitHub Actions will process your move and update this README in ~15 seconds.
 
-| Game | Start | Move |
-|------|-------|------|
-| Tic-Tac-Toe | `start ttt` | `A1` – `C3` |
-| Reversi | `start reversi` | `A1` – `H8` |
-| Number Guess | `start guess` | `1` – `100` |
+**All game information is encoded in the issue title:**
+- Tic-Tac-Toe: `Tic-Tac-Toe: Move A1` to `Tic-Tac-Toe: Move C3`
+- Reversi: `Reversi: Move A1` to `Reversi: Move H8`
+- Number Guess: `Number Guess: 1` to `Number Guess: 100`
 
 </details>
 
