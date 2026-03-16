@@ -130,10 +130,10 @@ class Reversi:
                 elif cell == 'white':
                     md += f"<img src=\"{self.img_white}\" width=36px>"
                 elif position in valid_moves:
-                    if is_active:
-                        link = f"https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body={position}"
-                    else:
-                        link = f"https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body=start%20reversi"
+                    # New issue format with title and body pre-filled
+                    title = f"Reversi:+Move+{position}"
+                    body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
+                    link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
                     md += f"[{self.symbols[None]}]({link})"
                 else:
                     md += self.symbols[None]
@@ -143,9 +143,14 @@ class Reversi:
         md += "|   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |\n"
 
         if not is_active:
-            md += "\nClick any highlighted square to start (Black goes first)\n"
+            md += "\nClick any highlighted square to start! (Black goes first)\n"
         else:
-            links = [f"[{p}](https://github.com/{owner}/{repo}/issues/{self.issue_number}/comments/new?body={p})" for p in sorted(valid_moves)]
+            links = []
+            for p in sorted(valid_moves):
+                title = f"Reversi:+Move+{p}"
+                body = "Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D"
+                link = f"https://github.com/{owner}/{repo}/issues/new?title={title}&body={body}"
+                links.append(f"[{p}]({link})")
             md += "\n" + " · ".join(links) + "\n"
 
             if state['moves']:
