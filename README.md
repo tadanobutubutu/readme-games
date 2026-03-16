@@ -48,7 +48,7 @@ Click any square to start!
 <!-- GUESS_START -->
 **Guess the secret number between 1 and 100.**
 
-<!-- GUESS_STATE:{"number":null,"attempts":[{"player":"tadanobutubutu","guess":50},{"player":"tadanobutubutu","guess":75},{"player":"tadanobutubutu","guess":82}],"solved":true} -->
+<!-- GUESS_STATE:{"number":null,"attempts":[],"solved":false} -->
 
 Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+25&body=Just+click+Submit+new+issue) · [50](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+50&body=Just+click+Submit+new+issue) · [75](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+75&body=Just+click+Submit+new+issue)
 
