@@ -46,12 +46,20 @@ Click any square to start!
 ## 🔢 Number Guessing (1-100)
 
 <!-- GUESS_START -->
-**Guess the secret number** | Range: **1 – 100** | Attempts: 0
+**Guess the secret number** | Range: **1 – 49** | Attempts: 1
 
-<!-- GUESS_STATE:{"number":34,"attempts":[],"solved":false} -->
+<!-- GUESS_STATE:{"number":34,"attempts":[{"player":"tadanobutubutu","guess":50}],"solved":false} -->
 
-Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+25&body=Just+click+Submit+new+issue) · [50](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+50&body=Just+click+Submit+new+issue) · [75](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+75&body=Just+click+Submit+new+issue)
+Click to guess: [13](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+13&body=Just+click+Submit+new+issue) · [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+25&body=Just+click+Submit+new+issue) · [37](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+37&body=Just+click+Submit+new+issue)
 
+<details>
+  <summary>Last 5 attempts</summary>
+
+| # | Guess | Player | Hint |
+| :-: | :---: | :----- | :--- |
+| 1 | **50** | [@tadanobutubutu](https://github.com/tadanobutubutu) | too high 🔻 |
+
+</details>
 
 <!-- GUESS_END -->
 
@@ -62,7 +70,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- LEADERBOARD_START -->
 | Rank | Player | Total | TTT | Reversi | Guess |
 |------|--------|-------|-----|---------|-------|
-| 1st | @tadanobutubutu | 1 | 1 | 0 | 0 |
+| 1st | @tadanobutubutu | 1 | 0 | 0 | 1 |
 
 <!-- LEADERBOARD_END -->
 
