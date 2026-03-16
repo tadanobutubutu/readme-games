@@ -1,8 +1,8 @@
-# 🤝 Contributing to README Games
+# Contributing to README Games
 
 Thank you for your interest in contributing! There are several ways you can help:
 
-## 🎮 Play the Games!
+## Play the Games!
 
 The easiest way to contribute is to play! When you make a move:
 
@@ -12,7 +12,7 @@ The easiest way to contribute is to play! When you make a move:
 
 **No special permissions needed** - just play and have fun!
 
-## 🐛 Report Bugs
+## Report Bugs
 
 Found a bug? Please [open an issue](https://github.com/tadanobutubutu/readme-games/issues/new) with:
 
@@ -21,7 +21,7 @@ Found a bug? Please [open an issue](https://github.com/tadanobutubutu/readme-gam
 - Expected vs actual behavior
 - Screenshots if applicable
 
-## 🎯 Add New Games
+## Add New Games
 
 Want to add a new game? Here's how:
 
@@ -101,7 +101,7 @@ self.data = {
 Add your game section:
 
 ```markdown
-### 🎲 Your Game Name
+### Your Game Name
 
 <!-- YOURGAME_START -->
 *No active game. Start with: `start yourgame`*
@@ -133,7 +133,7 @@ def parse_move(self):
 3. Test locally with mock GitHub events
 4. Create a pull request
 
-## 📝 Code Style
+## Code Style
 
 - Use **Python 3.11** features
 - Keep functions **short and focused**
@@ -141,7 +141,7 @@ def parse_move(self):
 - Follow **PEP 8** style guide
 - Prioritize **performance** and **simplicity**
 
-## ⚡ Performance Guidelines
+## Performance Guidelines
 
 - Minimize **external dependencies**
 - Use **efficient algorithms** (O(n) or better when possible)
@@ -149,7 +149,7 @@ def parse_move(self):
 - Keep **JSON state compact**
 - Use **regex for parsing** (fast)
 
-## 💯 Quality Checklist
+## Quality Checklist
 
 Before submitting a PR:
 
@@ -161,7 +161,7 @@ Before submitting a PR:
 - [ ] Performance is optimized
 - [ ] Code follows style guide
 
-## 🚀 Submit Your Contribution
+## Submit Your Contribution
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b add-your-game`
@@ -169,10 +169,10 @@ Before submitting a PR:
 4. Push to the branch: `git push origin add-your-game`
 5. Submit a pull request
 
-## ❓ Questions?
+## Questions?
 
 Feel free to [open an issue](https://github.com/tadanobutubutu/readme-games/issues/new) or reach out to the maintainers!
 
 ---
 
-**Thank you for making README Games better!** 🎉
+**Thank you for making README Games better!**
