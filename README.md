@@ -24,6 +24,8 @@
 
 </details>
 
+**Admin:** [♻️ Reset Game](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Reset&body=This+will+reset+the+game+board.+Only+@tadanobutubutu+can+use+this.)
+
 <!-- TICTACTOE_END -->
 
 ---
@@ -46,6 +48,8 @@
 
 Click any highlighted square to start! (Black goes first)
 
+**Admin:** [♻️ Reset Game](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Reset&body=This+will+reset+the+game+board.+Only+@tadanobutubutu+can+use+this.)
+
 <!-- REVERSI_END -->
 
 ---
@@ -59,6 +63,8 @@ Click any highlighted square to start! (Black goes first)
 Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+25&body=Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D) · [50](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+50&body=Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D) · [75](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+75&body=Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D)
 
 [Start a new round →](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+Start+New+Game&body=Please+do+not+change+the+title.+Just+click+%22Submit+new+issue%22.+You+don%27t+need+to+do+anything+else+:D)
+
+**Admin:** [♻️ Reset Game](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+Reset&body=This+will+reset+the+number+guessing+game.+Only+@tadanobutubutu+can+use+this.)
 
 <!-- GUESS_END -->
 
@@ -95,6 +101,11 @@ Click a square on the board. This opens a pre-filled issue form. Just click "Sub
 - Tic-Tac-Toe: `Tic-Tac-Toe: Move A1` to `Tic-Tac-Toe: Move C3`
 - Reversi: `Reversi: Move A1` to `Reversi: Move H8`
 - Number Guess: `Number Guess: 1` to `Number Guess: 100`
+
+**Admin commands** (only @tadanobutubutu):
+- `Tic-Tac-Toe: Reset`
+- `Reversi: Reset`
+- `Number Guess: Reset`
 
 </details>
 
