@@ -46,11 +46,11 @@ Click any square to start!
 ## 🔢 Number Guessing (1-100)
 
 <!-- GUESS_START -->
-**Guess the secret number** | Range: **34 – 36** | Attempts: 4
+**Guess the secret number** | Range: **34 – 34** | Attempts: 5
 
-<!-- GUESS_STATE:{"number":34,"attempts":[{"player":"tadanobutubutu","guess":50},{"player":"tadanobutubutu","guess":25},{"player":"tadanobutubutu","guess":37},{"player":"tadanobutubutu","guess":33}],"solved":false} -->
+<!-- GUESS_STATE:{"number":34,"attempts":[{"player":"tadanobutubutu","guess":50},{"player":"tadanobutubutu","guess":25},{"player":"tadanobutubutu","guess":37},{"player":"tadanobutubutu","guess":33},{"player":"tadanobutubutu","guess":35}],"solved":false} -->
 
-Click to guess: [34](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+34&body=Just+click+Submit+new+issue) · [35](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+35&body=Just+click+Submit+new+issue)
+Click to guess: [34](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+34&body=Just+click+Submit+new+issue)
 
 <details>
   <summary>Last 5 attempts</summary>
@@ -61,6 +61,7 @@ Click to guess: [34](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 | 2 | **25** | [@tadanobutubutu](https://github.com/tadanobutubutu) | too low 🔺 |
 | 3 | **37** | [@tadanobutubutu](https://github.com/tadanobutubutu) | too high 🔻 |
 | 4 | **33** | [@tadanobutubutu](https://github.com/tadanobutubutu) | too low 🔺 |
+| 5 | **35** | [@tadanobutubutu](https://github.com/tadanobutubutu) | too high 🔻 |
 
 </details>
 
