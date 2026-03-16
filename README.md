@@ -3,29 +3,29 @@
 ## Tic-Tac-Toe
 
 <!-- TICTACTOE_START -->
-**Turn:** ⭕
+**Turn:** ❌
 
-<!-- TTT_STATE:{"board":[["O","X","EMPTY"],["X","X","O"],["O","EMPTY","X"]],"turn":"O","log":[{"player":"tadanobutubutu","pos":"B2","sym":"X"},{"player":"tadanobutubutu","pos":"A1","sym":"O"},{"player":"tadanobutubutu","pos":"C3","sym":"X"},{"player":"tadanobutubutu","pos":"A3","sym":"O"},{"player":"tadanobutubutu","pos":"A2","sym":"X"},{"player":"tadanobutubutu","pos":"C2","sym":"O"},{"player":"tadanobutubutu","pos":"B1","sym":"X"}]} -->
+<!-- TTT_STATE:{"board":[["O","X","O"],["X","X","O"],["O","EMPTY","X"]],"turn":"X","log":[{"player":"tadanobutubutu","pos":"B2","sym":"X"},{"player":"tadanobutubutu","pos":"A1","sym":"O"},{"player":"tadanobutubutu","pos":"C3","sym":"X"},{"player":"tadanobutubutu","pos":"A3","sym":"O"},{"player":"tadanobutubutu","pos":"A2","sym":"X"},{"player":"tadanobutubutu","pos":"C2","sym":"O"},{"player":"tadanobutubutu","pos":"B1","sym":"X"},{"player":"tadanobutubutu","pos":"C1","sym":"O"}]} -->
 
 |   | **A** | **B** | **C** |   |
 |---|:-----:|:-----:|:-----:|:-:|
-| **1** | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg" width=40px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg" width=40px> | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C1&body=Just+click+Submit+new+issue) | **1** |
+| **1** | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg" width=40px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg" width=40px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg" width=40px> | **1** |
 | **2** | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg" width=40px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg" width=40px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg" width=40px> | **2** |
 | **3** | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg" width=40px> | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+B3&body=Just+click+Submit+new+issue) | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg" width=40px> | **3** |
 |   | **A** | **B** | **C** |   |
 
-[C1](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C1&body=Just+click+Submit+new+issue) · [B3](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+B3&body=Just+click+Submit+new+issue)
+[B3](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+B3&body=Just+click+Submit+new+issue)
 
 <details>
   <summary>Last placements</summary>
 
 | Position | Player |
 | :------: | :----- |
-| `C3` (❌) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 | `A3` (⭕) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 | `A2` (❌) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 | `C2` (⭕) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 | `B1` (❌) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
+| `C1` (⭕) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 
 </details>
 
@@ -77,7 +77,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- LEADERBOARD_START -->
 | Rank | Player | Total | Tic-Tac-Toe | Reversi | Number Guess |
 |:----:|--------|:-----:|:-----------:|:-------:|:------------:|
-| 1st | [@tadanobutubutu](https://github.com/tadanobutubutu) | 105 | 23 | 70 | 12 |
+| 1st | [@tadanobutubutu](https://github.com/tadanobutubutu) | 106 | 24 | 70 | 12 |
 
 <!-- LEADERBOARD_END -->
 
@@ -87,7 +87,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- PARTICIPANTS_START -->
 **Total participants: 1**
 
-[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-105_moves-blue)](https://github.com/tadanobutubutu) 
+[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-106_moves-blue)](https://github.com/tadanobutubutu) 
 <!-- PARTICIPANTS_END -->
 
 </details>
@@ -97,12 +97,12 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 ## Most Played Games
 
 <!-- GAME_STATS_START -->
-**Total moves played: 105**
+**Total moves played: 106**
 
 | Rank | Game | Moves |
 |:----:|------|:-----:|
-| 1st | Reversi / Othello | 70 (67%) `#############-------` |
-| 2nd | Tic-Tac-Toe | 23 (22%) `####----------------` |
+| 1st | Reversi / Othello | 70 (66%) `#############-------` |
+| 2nd | Tic-Tac-Toe | 24 (23%) `####----------------` |
 | 3rd | Number Guessing | 12 (11%) `##------------------` |
 
 <!-- GAME_STATS_END -->
