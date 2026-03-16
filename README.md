@@ -35,7 +35,7 @@ Click any highlighted square to start! (Black goes first)
 
 ---
 
-## Number Guessing (1-100)
+## 🔢 Number Guessing (1-100)
 
 <!-- GUESS_START -->
 **Guess the secret number between 1 and 100.**
