@@ -63,7 +63,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- LEADERBOARD_START -->
 | Rank | Player | Total | Tic-Tac-Toe | Reversi | Number Guess |
 |:----:|--------|:-----:|:-----------:|:-------:|:------------:|
-| 1st | [@tadanobutubutu](https://github.com/tadanobutubutu) | 68 | 9 | 59 | 0 |
+| 1st | [@tadanobutubutu](https://github.com/tadanobutubutu) | 74 | 9 | 59 | 6 |
 
 <!-- LEADERBOARD_END -->
 
@@ -73,7 +73,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- PARTICIPANTS_START -->
 **Total participants: 1**
 
-[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-68_moves-blue)](https://github.com/tadanobutubutu) 
+[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-74_moves-blue)](https://github.com/tadanobutubutu) 
 <!-- PARTICIPANTS_END -->
 
 </details>
@@ -83,13 +83,13 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 ## Most Played Games
 
 <!-- GAME_STATS_START -->
-**Total moves played: 68**
+**Total moves played: 74**
 
 | Rank | Game | Moves |
 |:----:|------|:-----:|
-| 1st | Reversi / Othello | 59 (87%) `#################---` |
-| 2nd | Tic-Tac-Toe | 9 (13%) `##------------------` |
-| 3rd | Number Guessing | 0 (0%) `--------------------` |
+| 1st | Reversi / Othello | 59 (80%) `###############-----` |
+| 2nd | Tic-Tac-Toe | 9 (12%) `##------------------` |
+| 3rd | Number Guessing | 6 (8%) `#-------------------` |
 
 <!-- GAME_STATS_END -->
 
