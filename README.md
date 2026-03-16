@@ -46,13 +46,12 @@ Click any square to start!
 ## Number Guessing (1-100)
 
 <!-- GUESS_START -->
-**Guess the secret number between 1 and 100.**
+**Guess the secret number** | Range: **1 – 100** | Attempts: 0
 
-<!-- GUESS_STATE:{"number":null,"attempts":[],"solved":false} -->
+<!-- GUESS_STATE:{"number":54,"attempts":[],"solved":false} -->
 
 Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+25&body=Just+click+Submit+new+issue) · [50](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+50&body=Just+click+Submit+new+issue) · [75](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+75&body=Just+click+Submit+new+issue)
 
-[Start a new round](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+Start+New+Game&body=Just+click+Submit+new+issue)
 
 <!-- GUESS_END -->
 
@@ -63,7 +62,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- LEADERBOARD_START -->
 | Rank | Player | Total | Tic-Tac-Toe | Reversi | Number Guess |
 |:----:|--------|:-----:|:-----------:|:-------:|:------------:|
-| 1st | [@tadanobutubutu](https://github.com/tadanobutubutu) | 74 | 9 | 59 | 6 |
+| 1st | [@tadanobutubutu](https://github.com/tadanobutubutu) | 1 | 0 | 0 | 1 |
 
 <!-- LEADERBOARD_END -->
 
@@ -73,7 +72,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- PARTICIPANTS_START -->
 **Total participants: 1**
 
-[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-74_moves-blue)](https://github.com/tadanobutubutu) 
+[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-1_moves-blue)](https://github.com/tadanobutubutu) 
 <!-- PARTICIPANTS_END -->
 
 </details>
@@ -83,13 +82,13 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 ## Most Played Games
 
 <!-- GAME_STATS_START -->
-**Total moves played: 74**
+**Total moves played: 1**
 
 | Rank | Game | Moves |
 |:----:|------|:-----:|
-| 1st | Reversi / Othello | 59 (80%) `###############-----` |
-| 2nd | Tic-Tac-Toe | 9 (12%) `##------------------` |
-| 3rd | Number Guessing | 6 (8%) `#-------------------` |
+| 1st | Number Guessing | 1 (100%) `####################` |
+| 2nd | Tic-Tac-Toe | 0 (0%) `--------------------` |
+| 3rd | Reversi / Othello | 0 (0%) `--------------------` |
 
 <!-- GAME_STATS_END -->
 
