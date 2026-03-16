@@ -15,7 +15,7 @@ class GameManager:
         self.issue_num = int(os.environ['ISSUE_NUMBER'])
         self.issue = self.repo.get_issue(self.issue_num)
         self.actor = os.environ['ACTOR']
-        self.comment_body = os.environ.get('COMMENT_BODY', '')
+        self.issue_title = os.environ.get('ISSUE_TITLE', '')
         
         self.data_file = Path('game_data.json')
         self.load_data()
@@ -73,27 +73,34 @@ class GameManager:
         return sorted(self.data['players'].items(), key=lambda x: x[1]['total'], reverse=True)[:limit]
     
     def parse_move(self):
-        body = self.comment_body.lower().strip()
+        """
+        Parse game information from issue title.
+        Expected formats:
+        - Tic-Tac-Toe: Move A1
+        - Reversi: Move D4
+        - Number Guess: 50
+        - Number Guess: Start New Game
+        """
+        title = self.issue_title.strip()
         
-        ttt_match = re.search(r'(?:ttt\s+)?([a-c][1-3])', body)
+        # Tic-Tac-Toe: Move A1 to C3
+        ttt_match = re.match(r'Tic-Tac-Toe:\s*Move\s+([A-C][1-3])', title, re.IGNORECASE)
         if ttt_match:
             return 'tictactoe', ttt_match.group(1).upper()
         
-        rev_match = re.search(r'(?:reversi\s+)?([a-h][1-8])', body)
+        # Reversi: Move A1 to H8
+        rev_match = re.match(r'Reversi:\s*Move\s+([A-H][1-8])', title, re.IGNORECASE)
         if rev_match:
             return 'reversi', rev_match.group(1).upper()
         
-        guess_match = re.search(r'(?:guess\s+)?(\d+)', body)
+        # Number Guess: 1-100
+        guess_match = re.match(r'Number\s+Guess:\s*(\d+)', title, re.IGNORECASE)
         if guess_match:
             return 'guess', int(guess_match.group(1))
         
-        if 'start' in body:
-            if 'ttt' in body or 'tictactoe' in body or 'tic' in body:
-                return 'tictactoe', 'start'
-            elif 'reversi' in body or 'othello' in body:
-                return 'reversi', 'start'
-            elif 'guess' in body or 'number' in body:
-                return 'guess', 'start'
+        # Number Guess: Start New Game
+        if re.match(r'Number\s+Guess:\s*Start', title, re.IGNORECASE):
+            return 'guess', 'start'
         
         return None, None
     
@@ -165,6 +172,15 @@ class GameManager:
         game_type, move = self.parse_move()
         
         if not game_type:
+            self.issue.create_comment(
+                f"\u26a0\ufe0f Invalid game command in title: `{self.issue_title}`\n\n"
+                "Expected format:\n"
+                "- `Tic-Tac-Toe: Move A1` (A1 to C3)\n"
+                "- `Reversi: Move D4` (A1 to H8)\n"
+                "- `Number Guess: 50` (1 to 100)\n"
+                "- `Number Guess: Start New Game`"
+            )
+            self.issue.edit(state='closed')
             return
         
         game = self.games[game_type]
@@ -181,8 +197,11 @@ class GameManager:
             
             if result.get('message'):
                 self.issue.create_comment(result['message'])
+            
+            self.issue.edit(state='closed')
         else:
-            self.issue.create_comment(f"Error: {result.get('message', 'Invalid move')}")
+            self.issue.create_comment(f"❌ Error: {result.get('message', 'Invalid move')}")
+            self.issue.edit(state='closed')
 
 if __name__ == '__main__':
     manager = GameManager()
