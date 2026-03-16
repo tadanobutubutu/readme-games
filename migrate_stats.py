@@ -3,6 +3,10 @@
 One-time migration script.
 Scans ALL closed issues, checks bot comment for success,
 and rebuilds game_stats.json from scratch.
+
+Success patterns per game:
+  Reversi / Tic-Tac-Toe : 'placed at'
+  Number Guess (any)    : 'too high' | 'too low' | 'correct' | 'guessed'
 """
 import os
 import re
@@ -14,7 +18,12 @@ TTT_RE   = re.compile(r'^Tic-Tac-Toe:\s*Put\s+[A-Ca-c][1-3]\s*$')
 REV_RE   = re.compile(r'^Reversi:\s*Put\s+[A-Ha-h][1-8]\s*$')
 GUESS_RE = re.compile(r'^Number\s+Guess:\s*\d+\s*$', re.I)
 
-SUCCESS_RE = re.compile(r'placed at', re.I)
+# Success patterns per game type
+SUCCESS = {
+    'tictactoe': re.compile(r'placed at', re.I),
+    'reversi':   re.compile(r'placed at', re.I),
+    'guess':     re.compile(r'too high|too low|correct|guessed', re.I),
+}
 
 def main():
     token = os.environ['GITHUB_TOKEN']
@@ -48,26 +57,23 @@ def main():
             continue
 
         total += 1
+        success_pat = SUCCESS[game_type]
 
-        # Check bot comment for success
-        comments = issue.get_comments()
         is_valid = False
-        for comment in comments:
-            if comment.user.login == 'github-actions[bot]' and SUCCESS_RE.search(comment.body):
+        for comment in issue.get_comments():
+            if comment.user.login == 'github-actions[bot]' and success_pat.search(comment.body):
                 is_valid = True
                 break
 
         if not is_valid:
-            print(f'  SKIP (invalid/no-success): #{issue.number} {title}')
+            print(f'  SKIP #{issue.number} [{game_type}]: {title}')
             continue
 
         valid += 1
-        print(f'  OK #{issue.number} [{game_type}] by @{actor}: {title}')
+        print(f'  OK   #{issue.number} [{game_type}] @{actor}: {title}')
 
-        # per-game
         stats['games'][game_type] += 1
 
-        # per-player
         p = stats['players']
         if actor not in p:
             p[actor] = {'total': 0, 'tictactoe': 0, 'reversi': 0, 'guess': 0}
@@ -78,8 +84,8 @@ def main():
             stats['participants'].append(actor)
 
     print(f'\nDone. Scanned {total} game issues, {valid} valid moves.')
-    print(f'Game totals: {stats["games"]}')
-    print(f'Players: {list(stats["players"].keys())}')
+    print(f'Game totals : {stats["games"]}')
+    print(f'Players     : {list(stats["players"].keys())}')
 
     out = Path('game_stats.json')
     with open(out, 'w') as f:
