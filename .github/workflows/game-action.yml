@@ -3,8 +3,6 @@ name: Game Action
 on:
   issues:
     types: [opened]
-  issue_comment:
-    types: [created]
 
 jobs:
   play:
@@ -32,8 +30,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}
-        COMMENT_BODY: ${{ github.event.comment.body || github.event.issue.body }}
-        ACTOR: ${{ github.event.comment.user.login || github.event.issue.user.login }}
+        ISSUE_TITLE: ${{ github.event.issue.title }}
+        ACTOR: ${{ github.event.issue.user.login }}
         REPO: ${{ github.repository }}
       run: python game.py
     
@@ -42,4 +40,4 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "Game Bot"
         git add -A
-        git diff --quiet && git diff --staged --quiet || (git commit -m "🎮 Update game state by @${{ github.event.comment.user.login || github.event.issue.user.login }}" && git push)
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🎮 Update game state by @${{ github.event.issue.user.login }}" && git push)
