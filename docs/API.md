@@ -1,4 +1,4 @@
-# 📚 Game API Reference
+# Game API Reference
 
 ## Overview
 
@@ -40,7 +40,7 @@ def make_move(self, state, move, player):
         state['turn'] = 'X'
         return {
             'success': True,
-            'message': f'🎮 New game started by @{player}!'
+            'message': f'New game started by @{player}!'
         }
     
     # Validate game exists
@@ -65,12 +65,12 @@ def make_move(self, state, move, player):
         if result:
             return {
                 'success': True,
-                'message': f'🎉 {result}!'
+                'message': f'{result}!'
             }
         
         return {
             'success': True,
-            'message': f'✅ Move executed by @{player}'
+            'message': f'Move executed by @{player}'
         }
     else:
         return {
@@ -261,7 +261,7 @@ def load_data(self):
 ### Step 4: Update README Template
 
 ```markdown
-### 🎲 Your Game
+### Your Game
 
 <!-- YOURGAME_START -->
 *No active game. Start with: `start yourgame`*
@@ -304,18 +304,18 @@ return {
 
 ```python
 # Success
-'✅ Move executed'
-'🎉 You won!'
-'✅ Game started'
+'Move executed'
+'You won!'
+'Game started'
 
 # Errors
-'❌ Invalid move'
-'⚠️ Position already taken'
+'Invalid move'
+'Position already taken'
 
 # Info
-'🎮 Game in progress'
-'📈 Too low'
-'📉 Too high'
+'Game in progress'
+'Too low'
+'Too high'
 ```
 
 ### 4. Efficient Win Checking
@@ -486,4 +486,4 @@ def count_pieces(board):
 
 ---
 
-**Happy coding! Create amazing games!** 🎮🚀
+**Happy coding! Create amazing games!**
