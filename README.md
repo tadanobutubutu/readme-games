@@ -21,23 +21,23 @@ Click any square to start!
 ## ⚫⚪ Reversi / Othello
 
 <!-- REVERSI_START -->
-**Turn:** ⚫ | ⚫ 3 – ⚪ 3
+**Turn:** ⚪ | ⚫ 5 – ⚪ 2
 
-<!-- REV_STATE:{"board":[["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","black","white","empty","empty","empty"],["empty","empty","empty","black","white","empty","empty","empty"],["empty","empty","empty","black","white","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"]],"turn":"black","log":[{"player":"tadanobutubutu","pos":"D3","color":"black"},{"player":"tadanobutubutu","pos":"E3","color":"white"}]} -->
+<!-- REV_STATE:{"board":[["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","black","white","empty","empty","empty"],["empty","empty","empty","black","black","black","empty","empty"],["empty","empty","empty","black","white","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"]],"turn":"white","log":[{"player":"tadanobutubutu","pos":"D3","color":"black"},{"player":"tadanobutubutu","pos":"E3","color":"white"},{"player":"tadanobutubutu","pos":"F4","color":"black"}]} -->
 
 |   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |
 |---|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-:|
 | **1** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **1** |
-| **2** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F2&body=Just+click+Submit+new+issue) | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **2** |
-| **3** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg" width=36px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26aa.svg" width=36px> | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F3&body=Just+click+Submit+new+issue) | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **3** |
-| **4** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg" width=36px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26aa.svg" width=36px> | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F4&body=Just+click+Submit+new+issue) | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **4** |
-| **5** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg" width=36px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26aa.svg" width=36px> | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F5&body=Just+click+Submit+new+issue) | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **5** |
-| **6** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F6&body=Just+click+Submit+new+issue) | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **6** |
+| **2** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **2** |
+| **3** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+C3&body=Just+click+Submit+new+issue) | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg" width=36px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26aa.svg" width=36px> | &nbsp;&nbsp;&nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+G3&body=Just+click+Submit+new+issue) | &nbsp;&nbsp;&nbsp; | **3** |
+| **4** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg" width=36px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg" width=36px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg" width=36px> | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **4** |
+| **5** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+C5&body=Just+click+Submit+new+issue) | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26ab.svg" width=36px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/26aa.svg" width=36px> | &nbsp;&nbsp;&nbsp; | [&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+G5&body=Just+click+Submit+new+issue) | &nbsp;&nbsp;&nbsp; | **5** |
+| **6** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **6** |
 | **7** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **7** |
 | **8** | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; | **8** |
 |   | **A** | **B** | **C** | **D** | **E** | **F** | **G** | **H** |   |
 
-[F2](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F2&body=Just+click+Submit+new+issue) · [F3](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F3&body=Just+click+Submit+new+issue) · [F4](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F4&body=Just+click+Submit+new+issue) · [F5](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F5&body=Just+click+Submit+new+issue) · [F6](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+F6&body=Just+click+Submit+new+issue)
+[C3](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+C3&body=Just+click+Submit+new+issue) · [C5](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+C5&body=Just+click+Submit+new+issue) · [G3](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+G3&body=Just+click+Submit+new+issue) · [G5](https://github.com/tdnb2b2/readme-games/issues/new?title=Reversi:+Put+G5&body=Just+click+Submit+new+issue)
 
 <details>
   <summary>Last placements</summary>
@@ -46,6 +46,7 @@ Click any square to start!
 | :------: | :----- |
 | `D3` (⚫) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 | `E3` (⚪) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
+| `F4` (⚫) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 
 </details>
 
