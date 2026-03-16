@@ -1,6 +1,6 @@
 # README Games
 
-## ❌⭕ Tic-Tac-Toe
+## Tic-Tac-Toe
 
 <!-- TICTACTOE_START -->
 <!-- TTT_STATE:{"board":[["EMPTY","EMPTY","EMPTY"],["EMPTY","EMPTY","EMPTY"],["EMPTY","EMPTY","EMPTY"]],"turn":"X","log":[]} -->
@@ -18,10 +18,10 @@ Click any square to start!
 
 ---
 
-## ⚫⚪ Reversi / Othello
+## Reversi / Othello
 
 <!-- REVERSI_START -->
-**Turn:** ⚫ | ⚫ 2 – ⚪ 2
+**Turn:** Black | Black 2 - White 2
 
 <!-- REV_STATE:{"board":[["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","white","black","empty","empty","empty"],["empty","empty","empty","black","white","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"],["empty","empty","empty","empty","empty","empty","empty","empty"]],"turn":"black","log":[]} -->
 
@@ -43,16 +43,16 @@ Click any square to start!
 
 ---
 
-## 🔢 Number Guessing (1-100)
+## Number Guessing (1-100)
 
 <!-- GUESS_START -->
 **Guess the secret number between 1 and 100.**
 
-<!-- GUESS_STATE:{"number":null,"attempts":[{"player":"tadanobutubutu","guess":50},{"player":"tadanobutubutu","guess":25},{"player":"tadanobutubutu","guess":37},{"player":"tadanobutubutu","guess":33},{"player":"tadanobutubutu","guess":35},{"player":"tadanobutubutu","guess":34}],"solved":true} -->
+<!-- GUESS_STATE:{"number":null,"attempts":[],"solved":false} -->
 
 Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+25&body=Just+click+Submit+new+issue) · [50](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+50&body=Just+click+Submit+new+issue) · [75](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+75&body=Just+click+Submit+new+issue)
 
-[Start a new round →](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+Start+New+Game&body=Just+click+Submit+new+issue)
+[Start a new round](https://github.com/tdnb2b2/readme-games/issues/new?title=Number+Guess:+Start+New+Game&body=Just+click+Submit+new+issue)
 
 <!-- GUESS_END -->
 
@@ -61,22 +61,25 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 ## Top 10 Players
 
 <!-- LEADERBOARD_START -->
-| Rank | Player | Total | TTT | Reversi | Guess |
-|------|--------|-------|-----|---------|-------|
-| 1st | @tadanobutubutu | 1 | 0 | 0 | 1 |
-
+*No players yet. Be the first!*
 <!-- LEADERBOARD_END -->
 
 <details>
   <summary>All Participants</summary>
 
 <!-- PARTICIPANTS_START -->
-**Total participants: 1**
-
-[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-1_plays-blue)](https://github.com/tadanobutubutu) 
+*No participants yet.*
 <!-- PARTICIPANTS_END -->
 
 </details>
+
+---
+
+## Most Played Games
+
+<!-- GAME_STATS_START -->
+*No moves played yet.*
+<!-- GAME_STATS_END -->
 
 ---
 

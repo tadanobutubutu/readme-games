@@ -29,17 +29,26 @@ class GameManager:
     def _load_stats(self):
         if self.stats_file.exists():
             with open(self.stats_file) as f:
-                return json.load(f)
-        return {'players': {}, 'participants': []}
+                data = json.load(f)
+            # migrate: ensure 'games' key exists
+            if 'games' not in data:
+                data['games'] = {'tictactoe': 0, 'reversi': 0, 'guess': 0}
+            return data
+        return {
+            'players': {},
+            'participants': [],
+            'games': {'tictactoe': 0, 'reversi': 0, 'guess': 0}
+        }
 
     def _save_stats(self):
         with open(self.stats_file, 'w') as f:
             json.dump(self.stats, f, indent=2)
 
     def _record(self, game_key):
-        # game_key is 'ttt', 'rev', or 'guess'
         key_map = {'ttt': 'tictactoe', 'rev': 'reversi', 'guess': 'guess'}
         game_type = key_map.get(game_key, game_key)
+
+        # per-player stats
         p = self.stats['players']
         if self.actor not in p:
             p[self.actor] = {'total': 0, 'tictactoe': 0, 'reversi': 0, 'guess': 0}
@@ -49,15 +58,21 @@ class GameManager:
         if self.actor not in self.stats['participants']:
             self.stats['participants'].append(self.actor)
 
+        # per-game stats
+        g = self.stats['games']
+        if game_type not in g:
+            g[game_type] = 0
+        g[game_type] += 1
+
     def parse(self):
         t = self.issue_title
 
         if self.actor == self.admin_user:
-            if re.search(r'リセット\s*(ox|oxゲーム|まるばつ|tictactoe|tic)', t, re.I):
+            if re.search(r'reset.*(ox|tictactoe|tic)', t, re.I):
                 return 'ttt_reset', None
-            if re.search(r'リセット\s*(オセロ|オセロゲーム|reversi|リバーシ)', t, re.I):
+            if re.search(r'reset.*(reversi|othello)', t, re.I):
                 return 'rev_reset', None
-            if re.search(r'リセット\s*(数当て?|guess|ゲス)', t, re.I):
+            if re.search(r'reset.*(guess)', t, re.I):
                 return 'guess_reset', None
 
         m = re.match(r'Tic-Tac-Toe:\s*Put\s+([A-Ca-c][1-3])\s*$', t)
@@ -92,21 +107,49 @@ class GameManager:
     def _update_readme(self, content, readme_obj):
         self.repo.update_file(
             'README.md',
-            f'🎮 Update game by @{self.actor}',
+            f'Update game by @{self.actor}',
             content,
             readme_obj.sha,
             branch='main'
         )
 
     def _render_leaderboard(self):
-        top = sorted(self.stats['players'].items(), key=lambda x: x[1]['total'], reverse=True)[:10]
+        top = sorted(
+            self.stats['players'].items(),
+            key=lambda x: x[1]['total'],
+            reverse=True
+        )[:10]
         if not top:
             return '*No players yet. Be the first!*'
-        md = '| Rank | Player | Total | TTT | Reversi | Guess |\n'
-        md += '|------|--------|-------|-----|---------|-------|\n'
-        for i, (p, s) in enumerate(top, 1):
+        md = '| Rank | Player | Total | Tic-Tac-Toe | Reversi | Number Guess |\n'
+        md += '|:----:|--------|:-----:|:-----------:|:-------:|:------------:|\n'
+        for i, (player, s) in enumerate(top, 1):
             rank = ['1st', '2nd', '3rd'][i-1] if i <= 3 else f'{i}th'
-            md += f'| {rank} | @{p} | {s["total"]} | {s["tictactoe"]} | {s["reversi"]} | {s["guess"]} |\n'
+            md += f'| {rank} | [@{player}](https://github.com/{player}) | {s["total"]} | {s["tictactoe"]} | {s["reversi"]} | {s["guess"]} |\n'
+        return md
+
+    def _render_game_stats(self):
+        g = self.stats.get('games', {})
+        ttt_total = g.get('tictactoe', 0)
+        rev_total = g.get('reversi', 0)
+        guess_total = g.get('guess', 0)
+        grand_total = ttt_total + rev_total + guess_total
+
+        games = [
+            ('Tic-Tac-Toe', ttt_total),
+            ('Reversi / Othello', rev_total),
+            ('Number Guessing', guess_total),
+        ]
+        games_sorted = sorted(games, key=lambda x: x[1], reverse=True)
+
+        md = f'**Total moves played: {grand_total}**\n\n'
+        md += '| Rank | Game | Moves Played |\n'
+        md += '|:----:|------|:------------:|\n'
+        for i, (name, count) in enumerate(games_sorted, 1):
+            rank = ['1st', '2nd', '3rd'][i-1] if i <= 3 else f'{i}th'
+            bar_len = int((count / max(grand_total, 1)) * 20)
+            bar = '|' * bar_len + '.' * (20 - bar_len)
+            md += f'| {rank} | {name} | {count} `{bar}` |\n'
         return md
 
     def _render_participants(self):
@@ -116,7 +159,7 @@ class GameManager:
         md = f'**Total participants: {total}**\n\n'
         for p in self.stats['participants']:
             n = self.stats['players'].get(p, {}).get('total', 0)
-            md += f'[![@{p}](https://img.shields.io/badge/@{p}-{n}_plays-blue)](https://github.com/{p}) '
+            md += f'[![@{p}](https://img.shields.io/badge/@{p}-{n}_moves-blue)](https://github.com/{p}) '
         return md
 
     def run(self):
@@ -124,11 +167,11 @@ class GameManager:
 
         if action is None:
             self.issue.create_comment(
-                f'⚠️ Unknown command: `{self.issue_title}`\n\n'
+                f'Unknown command: `{self.issue_title}`\n\n'
                 'Expected formats:\n'
-                '- `Tic-Tac-Toe: Put A1` (A1–C3)\n'
-                '- `Reversi: Put D4` (A1–H8)\n'
-                '- `Number Guess: 50` (1–100)\n'
+                '- `Tic-Tac-Toe: Put A1` (A1-C3)\n'
+                '- `Reversi: Put D4` (A1-H8)\n'
+                '- `Number Guess: 50` (1-100)\n'
                 '- `Number Guess: Start New Game`'
             )
             self.issue.edit(state='closed')
@@ -141,7 +184,7 @@ class GameManager:
             state = {'board': self.ttt._empty_board(), 'turn': self.ttt.X, 'log': []}
             content = self._replace_section(content, 'TICTACTOE', self.ttt.render(state, self.owner, self.repo_name))
             self._update_readme(content, readme_obj)
-            self.issue.create_comment(f'♻️ Tic-Tac-Toe reset by @{self.actor}')
+            self.issue.create_comment(f'Tic-Tac-Toe reset by @{self.actor}')
             self.issue.edit(state='closed')
             return
 
@@ -149,7 +192,7 @@ class GameManager:
             state = {'board': self.rev._empty_board(), 'turn': self.rev.BLACK, 'log': []}
             content = self._replace_section(content, 'REVERSI', self.rev.render(state, self.owner, self.repo_name))
             self._update_readme(content, readme_obj)
-            self.issue.create_comment(f'♻️ Reversi reset by @{self.actor}')
+            self.issue.create_comment(f'Reversi reset by @{self.actor}')
             self.issue.edit(state='closed')
             return
 
@@ -157,7 +200,7 @@ class GameManager:
             state = {'number': None, 'attempts': [], 'solved': False}
             content = self._replace_section(content, 'GUESS', self.guess.render(state, self.owner, self.repo_name))
             self._update_readme(content, readme_obj)
-            self.issue.create_comment(f'♻️ Number Guess reset by @{self.actor}')
+            self.issue.create_comment(f'Number Guess reset by @{self.actor}')
             self.issue.edit(state='closed')
             return
 
@@ -195,6 +238,7 @@ class GameManager:
         self._save_stats()
 
         content = self._replace_section(content, 'LEADERBOARD', self._render_leaderboard())
+        content = self._replace_section(content, 'GAME_STATS', self._render_game_stats())
         content = self._replace_section(content, 'PARTICIPANTS', self._render_participants())
 
         self._update_readme(content, readme_obj)

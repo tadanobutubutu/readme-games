@@ -1,0 +1,9 @@
+{
+  "players": {},
+  "participants": [],
+  "games": {
+    "tictactoe": 0,
+    "reversi": 0,
+    "guess": 0
+  }
+}
