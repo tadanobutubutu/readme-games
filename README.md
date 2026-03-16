@@ -26,18 +26,18 @@ AI_INSTRUCTIONS:
 ## Tic-Tac-Toe
 
 <!-- TICTACTOE_START -->
-**Turn:** ⭕
+**Turn:** ❌
 
-<!-- TTT_STATE:{"board":[["O","X","EMPTY"],["EMPTY","X","EMPTY"],["EMPTY","EMPTY","EMPTY"]],"turn":"O","log":[{"player":"tadanobutubutu","pos":"B2","sym":"X"},{"player":"tadanobutubutu","pos":"A1","sym":"O"},{"player":"tadanobutubutu","pos":"B1","sym":"X"}]} -->
+<!-- TTT_STATE:{"board":[["O","X","EMPTY"],["O","X","EMPTY"],["EMPTY","EMPTY","EMPTY"]],"turn":"X","log":[{"player":"tadanobutubutu","pos":"B2","sym":"X"},{"player":"tadanobutubutu","pos":"A1","sym":"O"},{"player":"tadanobutubutu","pos":"B1","sym":"X"},{"player":"tadanobutubutu","pos":"A2","sym":"O"}]} -->
 
 |   | **A** | **B** | **C** |   |
 |---|:-----:|:-----:|:-----:|:-:|
 | **1** | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg" width=40px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg" width=40px> | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C1&body=Just+click+Submit+new+issue) | **1** |
-| **2** | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+A2&body=Just+click+Submit+new+issue) | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg" width=40px> | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C2&body=Just+click+Submit+new+issue) | **2** |
+| **2** | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/2b55.svg" width=40px> | <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/274c.svg" width=40px> | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C2&body=Just+click+Submit+new+issue) | **2** |
 | **3** | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+A3&body=Just+click+Submit+new+issue) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+B3&body=Just+click+Submit+new+issue) | [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C3&body=Just+click+Submit+new+issue) | **3** |
 |   | **A** | **B** | **C** |   |
 
-[C1](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C1&body=Just+click+Submit+new+issue) · [A2](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+A2&body=Just+click+Submit+new+issue) · [C2](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C2&body=Just+click+Submit+new+issue) · [A3](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+A3&body=Just+click+Submit+new+issue) · [B3](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+B3&body=Just+click+Submit+new+issue) · [C3](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C3&body=Just+click+Submit+new+issue)
+[C1](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C1&body=Just+click+Submit+new+issue) · [C2](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C2&body=Just+click+Submit+new+issue) · [A3](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+A3&body=Just+click+Submit+new+issue) · [B3](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+B3&body=Just+click+Submit+new+issue) · [C3](https://github.com/tdnb2b2/readme-games/issues/new?title=Tic-Tac-Toe:+Put+C3&body=Just+click+Submit+new+issue)
 
 <details>
   <summary>Last placements</summary>
@@ -47,6 +47,7 @@ AI_INSTRUCTIONS:
 | `B2` (❌) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 | `A1` (⭕) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 | `B1` (❌) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
+| `A2` (⭕) | [@tadanobutubutu](https://github.com/tadanobutubutu) |
 
 </details>
 
@@ -98,7 +99,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- LEADERBOARD_START -->
 | Rank | Player | Total | TTT | Reversi | Guess | ❌W | ⭕W | ⚫W | ⚪W |
 |:----:|--------|:-----:|:---:|:-------:|:-----:|:---:|:---:|:---:|:---:|
-| 1st | [@tadanobutubutu](https://github.com/tadanobutubutu) | 111 | 28 | 71 | 12 | 2 | 1 | 1 | 0 |
+| 1st | [@tadanobutubutu](https://github.com/tadanobutubutu) | 112 | 29 | 71 | 12 | 2 | 1 | 1 | 0 |
 
 **Game wins — ❌: 2 ⭕: 1 ⚫: 1 ⚪: 0**
 
@@ -110,7 +111,7 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 <!-- PARTICIPANTS_START -->
 **Total participants: 1**
 
-[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-111_moves-blue)](https://github.com/tadanobutubutu) 
+[![@tadanobutubutu](https://img.shields.io/badge/@tadanobutubutu-112_moves-blue)](https://github.com/tadanobutubutu) 
 <!-- PARTICIPANTS_END -->
 
 </details>
@@ -120,12 +121,12 @@ Click to guess: [25](https://github.com/tdnb2b2/readme-games/issues/new?title=Nu
 ## Most Played Games
 
 <!-- GAME_STATS_START -->
-**Total moves played: 111**
+**Total moves played: 112**
 
 | Rank | Game | Moves |
 |:----:|------|:-----:|
-| 1st | Reversi / Othello | 71 (64%) `############--------` |
-| 2nd | Tic-Tac-Toe | 28 (25%) `#####---------------` |
+| 1st | Reversi / Othello | 71 (63%) `############--------` |
+| 2nd | Tic-Tac-Toe | 29 (26%) `#####---------------` |
 | 3rd | Number Guessing | 12 (11%) `##------------------` |
 
 <!-- GAME_STATS_END -->
